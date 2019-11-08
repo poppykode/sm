@@ -1,0 +1,270 @@
+{% extends 'shared/shared.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% block title %}SolarShark :: {{obj.title|title}}{% endblock %}
+{% block content %}
+
+<h2 class="title1">Title: {{obj.title|title}} <span class="badge badge-success">{{obj.status}}</span></h2>
+<div class="blank-page widget-shadow scroll" id="style-2 div1">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% if form.errors %}
+    <p>errors</p>
+    {% for err in form.errors %}
+    <p> {{err}}</p>
+    {% endfor %}
+    {% endif %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="pull-left" style="padding-top: 17px;">
+                        {% if request.user.is_sales %}
+                        
+                        <a href="{% url 'invoices:invoice_create' obj.id %}" type="button"
+                        class="btn btn-warning btn-flat btn-pri btn-lg" style="margin-bottom:10px;"><i class="fa fa-files-o"></i> Generate Quotation</a> <strong>Priority : </strong><span>{{obj.priority}}</span>
+                        {% else %}
+                        <a href="{% url 'enquiries:enquiry_update' obj.id %}" type="button"
+                            class="btn btn-warning btn-flat btn-pri btn-lg" style="margin-bottom:10px;"><i
+                                class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
+                        <a href="{% url 'enquiries:enquiry_delete' obj.id %}" type="button"
+                            class="btn btn-danger btn-flat btn-pri btn-lg" style="margin-bottom:10px;"><i
+                                class="fa fa-trash-o" aria-hidden="true"></i> Delete</a>
+                       {% endif %}
+                       <span class="badge badge-success">Number of invoices generated {{generated_invoices}}</span>
+                            </div>
+                    <div class="pull-right">
+                        <form id="form1" class="form-inline" method="POST"
+                            action="{% url 'enquiries:update_details_enquiry' obj.id %}">
+                            {% csrf_token %}
+                            {% if request.user.is_sales and obj.assessment_date is None  %}
+                            <div class="form-group">
+                                    {{ form.assessment_date|as_crispy_field}}
+                            </div>
+                            {% endif %}
+                            {% if request.user.is_superuser or  request.user.is_customer_services  %}
+                            <div class="form-group" style="visibility:hidden;">
+                                {{ form.attended_to|as_crispy_field}}
+                            </div>
+                           
+                            <div class="form-group" style="visibility:hidden;">
+                                {{ form.status|as_crispy_field}}
+                            </div>
+
+                          
+                            <div class="form-group">
+                                {{ form.priority|as_crispy_field}}
+                            </div>
+                            {% else %}
+                            <div class="form-group" style="visibility:hidden;">
+                                {{ form.priority|as_crispy_field}}
+                            </div>
+                            <div class="form-group" >
+                                {{ form.attended_to|as_crispy_field}}
+                            </div>
+                           
+                            <div class="form-group">
+                                {{ form.status|as_crispy_field}}
+                            </div>
+
+                          
+                           
+                            {% endif %}
+                            <div class="form-group">
+                                {{ form.next_follow_up|as_crispy_field}}
+                            </div>
+                            <div class="form-group">
+                               
+                            </div>
+                            <div class="form-group">
+                                {{ form.address|as_crispy_field}}
+                            </div>
+                            <div class="form-group">
+                                {{ form.title|as_crispy_field}}
+                            </div>
+                            <div class="form-group">
+                                {{ form.company|as_crispy_field}}
+                            </div>
+                            <div class="form-group">
+                                {{ form.contact_name|as_crispy_field}}
+                            </div>
+                            <div class="form-group">
+                                {{ form.email|as_crispy_field}}
+                            </div>
+                            <div class="form-group">
+                                {{ form.phone_number|as_crispy_field}}
+                            </div>
+                            <div class="form-group">
+                                {{ form.assigned_to|as_crispy_field}}
+                            </div>
+                            <div class="form-group">
+                                {{ form.channel|as_crispy_field}}
+                            </div>
+                            <div class="form-group">
+                                {{ form.service|as_crispy_field}}
+                            </div>
+                            <div class="form-group">
+                                {{ form.value|as_crispy_field}}
+                            </div>
+                            <div class="form-group">
+                                {{ form.decription|as_crispy_field}}
+                            </div>
+                            <div class="form-group">
+                                {{ form.website|as_crispy_field}}
+                            </div>
+                            <div class="form-group">
+                                {{ form.service_mode|as_crispy_field}}
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-4">
+                    <p>Company Name</p>
+                    <p><strong>{{obj.company|title}}</strong></p>
+                    <p>Phone Number</p>
+                    <p><strong>{{obj.phone_number}}</strong></p>
+
+                </div>
+                <div class="col-md-4">
+                    <p>Contact Person</p>
+                    <p><strong>{{obj.contact_name|title}}</strong></p>
+                    <p>Email</p>
+                    <p><strong>{{obj.email}}</strong></p>
+                </div>
+                <div class="col-md-4">
+                    <p>Enquiry Date</p>
+                    <p><strong>{{obj.timestamp|date:"M d, Y"}}</strong></p>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <p>Description</p>
+                    <p><strong>{{obj.decription}}</strong></p>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="title1">Product/Service</h2>
+                    <p><strong>{{obj.service.title|title}}</strong></p>
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-12">
+
+                <h2 class="title1">More Information</h2>
+            </div>
+
+            <div class="col-md-4">
+                <p>Address</p>
+                {% if obj.address %}
+                <p><strong>{{obj.address}}</strong></p>
+                {% else %}
+                <p><strong>Not Available</strong></p>
+                {% endif %}
+            </div>
+            <div class="col-md-4">
+                <p>Website</p>
+                <p><strong><a href="{{obj.website}}" target="_blank">{{obj.contact_name}}</a></strong></p>
+                <p>Assigned To</p>
+                <p><strong>{{obj.assigned_to.first_name|title}} {{obj.assigned_to.last_name|title}}</strong></p>
+
+            </div>
+            <div class="col-md-4">
+                <p>Channel Received</p>
+                <p><strong>{{obj.channel}}</strong></p>
+                <p>Value</p>
+                {% if obj.value %}
+                <p><strong>$ {{obj.value|title}}</strong></p>
+                {% else %}
+                <p><strong>n/a</strong></p>
+                {% endif %}
+                {% if obj.service_mode %}
+                <p>Fllow Up Mode</p>
+                <p><strong>{{obj.service_mode.title|title}}</strong></p>
+                {% else %}
+                <p><strong>n/a</strong></p>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+</div>
+<h2 class="title1" style="margin-top: 0.8em;">Enter your Comments/Notes</h2>
+<div class="blank-page widget-shadow scroll" id="style-2 div1">
+    <form id="form1" class="form" method="POST" action="{% url 'enquiries:enquiry_comment' obj.id %}">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form_1.decription|as_crispy_field}}
+        </div>
+        <div class="form-group">
+            {{ form_1.enquiry|as_crispy_field}}
+        </div>
+        <div class="form-group">
+            {{ form_1.user|as_crispy_field}}
+        </div>
+        <button type="submit" class="btn btn-primary">Post Comment</button>
+    </form>
+</div>
+
+<h2 class="title1" style="margin-top: 0.8em;">Posted Comments</h2>
+{% if obj_ %}
+<div class="blank-page widget-shadow scroll" id="style-2 div1">
+    {% for comment in obj_ %}
+    <div class="row">
+        <div class="col-md-2">
+            {% if user.id == comment.user.id %}
+             <a href="{%  url 'enquiries:delete_comment' comment.id %}"> <i class="fa fa-lg fa-trash-o" aria-hidden="true" style="color:red;"></i> Delete</a> 
+             {% endif %} 
+        </div>
+        <div class="col-md-10">
+                <h4>{{comment.user|title}}</h4>
+                <small>{{comment.timestamp|date:"M d, Y"}}</small>
+               <p>{{comment.decription}}</p>
+        </div>
+    </div>
+ 
+   <hr>
+    {% endfor %}
+</div>
+{% else %}
+<div class="blank-page widget-shadow scroll" id="style-2 div1">
+        No Comments on this enquiry.
+    </div>
+{% endif %}
+
+
+{% endblock %}

@@ -1,0 +1,202 @@
+{% extends 'shared/shared.html' %}
+{% load staticfiles %}
+{% block title %}SolarShark :: Overview{% endblock %}
+{% block content %}
+<div class="col_3">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    <div class="col-md-3 widget widget1">
+        <div class="r3_counter_box">
+            <i class="pull-left fa fa-comments-o icon-rounded"></i>
+            <div class="stats">
+                <h5><strong>{{assements}}</strong></h5>
+                <span>Assements</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 widget widget1">
+        <div class="r3_counter_box">
+            <i class="pull-left fa fa-files-o user1 icon-rounded"></i>
+            <div class="stats">
+                <h5><strong>{{projects}}</strong></h5>
+                <span>Projects</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 widget widget1">
+        <div class="r3_counter_box">
+
+            <i class="pull-left fa fa-file user2 icon-rounded"></i>
+            <div class="stats">
+                <h5><strong>{{installations}}</strong></h5>
+                <span>Installations</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 widget widget1">
+        <div class="r3_counter_box">
+            <div class="stats">
+              <small> Pending : <strong> {{pending}}</strong></small>
+              <small> On hold : <strong> {{on_hold}}</strong></small>
+              <small> Completed : <strong> {{completed}}</strong></small>
+              <small> In progress : <strong> {{in_progress}}</strong></small>
+              <small> Abandoned : <strong> {{abandoned}}</strong></small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 widget">
+        <div class="r3_counter_box">
+            <i class="pull-left fa fa-users dollar2 icon-rounded"></i>
+            <div class="stats">
+                <h5><strong>{{all}}</strong></h5>
+                <span>All</span>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"> </div>
+</div>
+<div class="row-one widgettable">
+        <div class="col-md-8">
+<div class="content-top-2 card">
+                <div class="tables">
+
+                        <div class="panel-body">
+                      
+                          <a href="#" type="button" class="btn btn-success btn-flat btn-pri btn-lg"
+                            style="margin-bottom:10px;"><i class="fa fa-plus" aria-hidden="true"></i> Create</a>
+                          <br>
+                      
+                          {% if obj %}
+                          <div class="table-responsive">
+                            <table class="table display w-auto" id="myTable">
+                              <thead>
+                      
+                                <tr>
+                              
+                                  <th style='white-space:nowrap;'>Title</th>
+                                  <th style='white-space:nowrap;'>Client</th>
+                                  <th style='white-space:nowrap;'>Deadline</th>
+                                  <th style='white-space:nowrap;'>Type</th>
+                                  <th style='white-space:nowrap;'>Status</th>
+                                
+
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {% for u in obj %}
+                                <tr>
+                                 
+                                  <td>{{u.title|title}}</td>
+                                  <td>{{u.client|title}}</td>
+                                  <td>{{u.end_date|date:"M d, Y"}}</td>
+                                  <td> <span class="badge badge-success">{{u.type}}</span></td>
+                                    {% ifequal u.status 'pending' %}
+                                    <td> <span class="badge badge-info">{{u.status}}</span></td>
+                                    {% endifequal %}
+                                    {% ifequal u.status 'in-progress' %}
+                                    <td> <span class="badge badge-primary">{{u.status}}</span></td>
+                                    {% endifequal %}
+                                    {% ifequal u.status 'on-hold' %}
+                                    <td> <span class="badge badge-warning">{{u.status}}</span></td>
+                                    {% endifequal %}
+                                    {% ifequal u.status 'completed' %}
+                                    <td> <span class="badge badge-success">{{u.status}}</span></td>
+                                    {% endifequal %}
+                                    {% ifequal u.status 'abandoned' %}
+                                    <td> <span class="badge badge-danger">{{u.status}}</span></td>
+                                    {% endifequal %}
+                                </tr>
+                                {% endfor %}
+                              </tbody>
+                            </table>
+                          </div>
+                          {% else %}
+                          <div class=" table-responsive">
+                            <table class="table">
+                              <thead>
+                                <tr>
+                                  <th>No Projects/Assessments/Installations at the moment</th>
+                                </tr>
+                              </thead>
+                            </table>
+                          </div>
+                          {% endif %}
+                      
+                        </div>
+                      
+                      </div>
+                    </div>
+            </div>
+    <div class="col-md-4">
+        <div class="content-top-2 card">
+        <div class="agileinfo-cdr">
+            <div class="card-header">
+                <h3>Overview</h3>
+            </div>
+            <canvas id="myChart" width="200" height="200"></canvas>
+        </div>
+    </div>
+    </div>
+ 
+
+
+    <div class="clearfix"> </div>
+</div>
+
+{% endblock %}
+{% block scripty %}
+<script>
+    $(document).ready(function () {
+        var endpoint = 'http://127.0.0.1:8000/api/v1/reports/project-overview'
+        var defaultData = []
+        var labels = []
+        $.ajax({
+            method: "GET",
+            url: endpoint,
+            success: function (response_data) {
+                labels = response_data.labels
+                defaultData = response_data.data
+                var ctx = document.getElementById('myChart').getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: '# Enquiries',
+                            data: defaultData,
+                            backgroundColor: [
+                                '#7460ee',
+                                '#ffb22b',
+                                '#00ad45',
+
+                            ],
+                            borderColor: [
+                                '#7460ee',
+                                '#ffb22b',
+                                '#00ad45',
+
+                            ],
+                            borderWidth: 0
+                        }]
+                    },
+                })
+            },
+            error: function (error_data) {
+                console.log(error_data)
+            }
+        })
+
+    });
+    $('#myTable').DataTable();
+</script>
+
+{% endblock %}

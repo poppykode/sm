@@ -1,0 +1,82 @@
+{% extends 'shared/shared.html' %}
+{% load staticfiles %}
+{% block title %}SolarShark :: Sales{% endblock %}
+{% block content %}
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+<h2 class="title1">Enquiries <span class="badge badge-light">{{enquiry_count}}</span></h2>
+{% if obj %}
+<div class="elements">
+    <div class="row">
+{% for u in obj %}
+  
+  <div class="col-sm-6 w3-agile-crd widgettable">
+      <div class="card">
+          <div class="card-body card-padding">
+              <div class="">
+                  <header class="widget-header">
+                    {% now "Y-m-d" as todays_date %}
+                    {% if todays_date > u.next_follow_up|date:"Y-m-d" %}
+                      <h4 class="widget-title"><span class="badge badge-danger">{{u.title|upper}}</span></h4>
+                      {% else %}
+                      <h4 class="widget-title"><span class="badge badge-success">{{u.title|upper}}</span></h4>
+                      {% endif %}
+                  </header>
+                  <hr class="widget-separator">
+                  <div class="widget-body">
+                      <div class="streamline">
+                          <div class="sl-item sl-primary">
+                              <div class="sl-content">
+                                  
+                                  <p> <small><i class="fa fa-lg fa-calendar"></i> <strong>Submitted on:</strong> {{u.timestamp|date:"M d, Y"}}  | <strong>Next Follow Up Date:</strong> {{u.next_follow_up|date:"M d, Y"}} {{u.next_follow_up_time|time:'H:i'}}  </small></p>
+                              </div>
+                          </div>
+                          <div class="sl-item sl-danger">
+                              <div class="sl-content">
+                               
+                                  <p>{{u.decription|truncatechars:30}}</p>
+                              </div>
+                          </div>
+                          <div class="sl-item sl-success">
+                              <div class="sl-content">
+                                  <p><small><strong>Priority:</strong> {{u.priority}}</small>
+                                    <small><strong>Follow Up Mode: </strong> {{u.channel}}</small>
+                                    <small><strong>Status: </strong> {{u.status}}</small>
+                                  </p>
+                              </div>
+                          </div>
+                          <div class="sl-item sl-warning">
+                              <div class="sl-content">
+                                
+                                  {% if todays_date > u.next_follow_up|date:"Y-m-d" %}
+
+                                   <a href="{% url 'enquiries:enquiry_details' u.id %}" style="color:red;">Follow Up</a>
+                                  {% else %}
+                                  <a href="{% url 'enquiries:enquiry_details' u.id %}" style="color:green;">Follow Up </a>
+                                 {% endif %}
+                              </div>
+                          </div>
+                          
+                      </div>
+                  </div>
+
+              </div>
+          </div>
+      </div>
+  </div>
+{% endfor %}
+</div>
+</div>
+{% else %}
+<p>No Equiries to be Attendend to</p>
+{% endif %}
+
+{% endblock %}

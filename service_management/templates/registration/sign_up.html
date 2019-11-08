@@ -1,0 +1,37 @@
+{% extends 'shared/shared.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% block title %}SolarShark :: Add User{% endblock %}
+{% block content %}
+            <h2 class="title1">Add User</h2>
+            <div class="form-grids row widget-shadow" data-example-id="basic-forms"> 
+                    <div class="form-body">
+<form action="{% url 'accounts:sign_up' %}" method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+        {{ form.username|as_crispy_field }}
+    </div>
+    <div class="form-group">
+        {{ form.first_name|as_crispy_field }}
+    </div>
+    <div class="form-group">
+        {{ form.last_name|as_crispy_field }}
+    </div>
+    <div class="form-group">
+        {{ form.designation|as_crispy_field}}
+    </div>
+    <div class="form-group">
+        {{ form.email|as_crispy_field}}
+    </div>
+    <div class="form-group">
+        {{ form.password1|as_crispy_field}}
+    </div>
+    <div class="form-group">
+        {{ form.password2|as_crispy_field}}
+    </div>
+ <button type="submit" class="btn btn-primary">Add User</button>
+</form>
+            </div>
+        </div>
+
+{% endblock %}

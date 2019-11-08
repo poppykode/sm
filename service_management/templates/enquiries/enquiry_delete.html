@@ -1,0 +1,27 @@
+{% extends 'shared/shared.html' %}
+{% load staticfiles %}
+{% block title %}SolarShark :: Delete Enquiry{% endblock %}
+{% block content %}
+<div class="form-grids row widget-shadow" data-example-id="basic-forms"> 
+        <div class="form-body">
+<div class="row">
+        <div class="col-md-3"></div>
+      <div class="col-md-6">
+            <form method="POST">
+                {% csrf_token %}
+                <h3><b>Are you sure you want to This Enquiry</b></h3>
+                <hr>
+                <h3>{{obj.title|title}}</h3>
+                <hr>
+                <div>
+                    <input type="submit" value="Delete Enquiry" class="btn btn-danger"/>
+                    <a href="{% url 'enquiries:overview' %}">Cancel</a>
+                </div>
+            </form>
+      </div>
+      <div class="col-md-3"></div>
+      </div>
+    </div>
+</div>
+     
+{% endblock %}

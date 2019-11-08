@@ -1,0 +1,152 @@
+{% extends 'shared/shared.html' %}
+{% load staticfiles %}
+{% block title %}SolarShark :: Enquiries{% endblock %}
+{% block content %}
+<div class="col_3">
+  {% if messages %}
+  {% for message in messages %}
+  <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    {{ message }}
+  </div>
+  {% endfor %}
+  {% endif %}
+  <div class="col-md-3 widget widget1">
+    <div class="r3_counter_box">
+      <i class="pull-left fa fa-comments-o icon-rounded"></i>
+      <div class="stats">
+        <h5><strong>{{all}}</strong></h5>
+        <span>All</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3 widget widget1">
+    <div class="r3_counter_box">
+      <i class="pull-left fa fa-files-o user1 icon-rounded"></i>
+      <div class="stats">
+        <h5><strong>{{assigned}}</strong></h5>
+        <span>Assigned</span>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 widget widget1">
+    <div class="r3_counter_box">
+
+      <i class="pull-left fa fa-file user2 icon-rounded"></i>
+      <div class="stats">
+        <h5><strong>{{un_assigned}}</strong></h5>
+        <span>Un-assigned</span>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 widget widget1">
+    <div class="r3_counter_box">
+      <i class="pull-left fa fa-pie-chart dollar1 icon-rounded"></i>
+      <div class="stats">
+        <h5><strong>{{un_attended}}</strong></h5>
+        <span>Attended To</span>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 widget">
+    <div class="r3_counter_box">
+      <i class="pull-left fa fa-users dollar2 icon-rounded"></i>
+      <div class="stats">
+        <h5><strong>{{due}}</strong></h5>
+        <span>Due</span>
+      </div>
+    </div>
+  </div>
+  <div class="clearfix"> </div>
+</div>
+
+<div class="tables row-one">
+
+  <div class="panel-body widget-shadow">
+
+    <a href="{% url 'enquiries:create' %}" type="button" class="btn btn-success btn-flat btn-pri btn-lg"
+      style="margin-bottom:10px;"><i class="fa fa-plus" aria-hidden="true"></i> Create Enquiry</a>
+    <br>
+
+    {% if obj %}
+    <div class="table-responsive">
+      <table class="table display w-auto" id="myTable">
+        <thead>
+
+          <tr>
+        
+            <th style='white-space:nowrap;'>Title</th>
+            <th style='white-space:nowrap;'>Company</th>
+            <th style='white-space:nowrap;'>Contact Name</th>
+            <th style='white-space:nowrap;'>Email</th>
+            <th style='white-space:nowrap;'>Phone Number</th>
+            <th style='white-space:nowrap;'>Next Follow Up</th>
+            <th style='white-space:nowrap;'>Status</th>
+            <th style='white-space:nowrap;'>Priority</th>
+            <th style='white-space:nowrap;'>Assigned To</th>
+            <th style='white-space:nowrap;'>Attended To</th>
+            <th style='white-space:nowrap;'></th>
+            <th style='white-space:nowrap;'></th>
+            <th style='white-space:nowrap;'></th>
+
+
+          </tr>
+        </thead>
+        <tbody>
+          {% for u in obj %}
+          <tr>
+           
+            <td>{{u.title|title}}</td>
+            <td>{{u.company|title}}</td>
+            <td>{{u.contact_name|title}}</td>
+            <td>{{u.email}}</td>
+            <td>{{u.phone_number}}</td>
+            <td>{{u.next_follow_up}}</td>
+            <td>{{u.status}}</td>
+            <td>{{u.priority}}</td>
+            {% if u.assigned_to  %}
+            <td>{{u.assigned_to.username}}</td>
+            {% else %}
+            <td style='color:red;'><strong>Not Assigned</strong></td>
+            {% endif %}
+            {% if u.attended_to == 'attended' %}
+            <td style='color:green;'>{{u.attended_to}}</td>
+            {% else %}
+            <td style='color:red;'><strong>{{u.attended_to}}</strong></td>
+            {% endif %}
+        <td><a href="{% url 'enquiries:enquiry_update' u.id %}"><i class="fa fa-pencil"></i></a></td>
+            <td><a href="{% url 'enquiries:enquiry_delete' u.id %}"><i class="fa fa-trash-o"></i></a></td>
+            <td><a href="{% url 'enquiries:enquiry_details' u.id %}"><i class="fa fa-binoculars"></i></a></td> 
+
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class=" table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>No Entries at the moment</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    {% endif %}
+
+  </div>
+
+</div>
+{% block scripty %}
+<script>
+  $(document).ready(function () {
+    $('#myTable').DataTable();
+  });
+</script>
+{% endblock %}
+
+{% endblock %}

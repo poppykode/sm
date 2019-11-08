@@ -1,0 +1,124 @@
+{% extends 'shared/shared.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% block title %}SolarShark :: Create Quotation{% endblock %}
+{% block content %}
+<div class="forms">
+    <h2 class="title1">Quotation Generation Form</h2>
+    <div class="form-grids row widget-shadow" data-example-id="basic-forms">
+        <div class="form-title">
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+                    <h4>Invoice for: {{obj.company|title}}</h4>
+                    {% now "Y-m-d" as todays_date %}
+                
+          <small>Quotation creation date: {{todays_date}}</small>
+          <br>
+                <img src="{% static 'images/logo.png' %}" alt="" class="img-fluid" width="auto" height="50px">
+ 
+        
+        </div>
+        <div class="form-body">
+            <form method="POST" action="{% url 'invoices:invoice_save' %}">
+                    {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6">
+                            <div class="form-group">
+                                    <label for="Invoice_for_title">Enquiry nature:</label>
+                                    <input type="input" class="form-control" id="Invoice_for_title" value="{{obj.title|title}}" readonly>
+                                </div>
+                    </div>
+                    <div class="col-md-6">
+                            <div class="form-group">
+                                    <label for="address">Addressed to:</label>
+                                    <textarea name="address" class="textarea form-control"  id="address" readonly>{{obj.address|title}}
+                                    </textarea>
+                                  
+                                </div>
+                    </div>
+                    <div class="col-md-6">
+                            <label for="banking_details">SolarShack Bank Acc</label>
+                            <select name="banking_details" id="banking_details" class="form-control1">
+                                {% for n in bd %}
+                                    <option value="{{n.id}}">{{n.company_name}}</option>
+                                {% endfor %}
+                                </select>
+
+                    </div>
+                    <div class="col-md-6">
+                            <div class="form-group">
+                                    <label for="assigned_to">Prepared by:</label>
+                                    <input type="input" class="form-control" id="assigned_to" value="{{obj.assigned_to|title}}" readonly name="assigned_to">
+                                </div>
+                        </div>
+                        <input type="hidden" class="form-control" id="id" value="{{obj.id}}"  name="id">
+                        <input type="hidden" class="form-control" id="company_name" value="{{obj.company}}"  name="company_name">
+                        <div class="form-group">
+                       
+                        <div class="col-md-12">
+            
+                                <table class="table table-hover" id='lineitems'> 
+                                    <thead> 
+                                        <tr> 
+                                            <th>Select</th>
+                                            <th>Title</th>
+                                             <th>Description</th> 
+                                             <th>Unit Price</th>
+                                             <th>Quantity</th>
+                                             </tr>
+                                             </thead> 
+                                             <tbody> 
+                                        
+                                                 </tbody>
+                                                 <tfoot>
+
+                                                 </tfoot>
+                                                 <input type="button" value="Add Line Item" id="newrows" class="btn btn-success form-control" style="margin-bottom:10px;">
+                                                 <input type="button" value="Delete Line Item" id="delnewrows" class="btn btn-danger form-control" style="margin-bottom:10px;">
+                                                 </table>
+                        </div>
+                    </div>
+                </div>
+              
+            
+  
+                   <button type="submit" class="btn btn-default">Generate Quotation</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+{% block scripty %}
+<script>
+ $(document).ready(function () {
+$("#newrows").click(function(){
+    var addcontrols ="<tr>"
+    addcontrols += "<td><input type='checkbox' class='form-control' name='checkbx'></td>"
+    addcontrols += "<td><input type='text' class='form-control' name='title' required></td>"
+    addcontrols += "<td><textarea name='description' class='textarea form-control' required> </textarea></td>"
+    addcontrols += "<td><input type='number' class='form-control' name='unit_price' required></td>"
+    addcontrols += "<td><input type='number' class='form-control' name='quantity' required></td>"
+    addcontrols += "</tr>";
+    $("table tbody").append(addcontrols);
+});
+$("#delnewrows").click(function(){
+    $("table tbody").find('input[name="checkbx"]').each(function(){
+        if($(this).is(":checked")){
+            $(this).parents("tr").remove();
+        }
+    });
+});
+
+ });
+</script>
+{% endblock %}

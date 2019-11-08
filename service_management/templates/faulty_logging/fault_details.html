@@ -1,0 +1,230 @@
+{% extends 'shared/shared.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% block title %}SolarShark :: {{obj.title|title}}{% endblock %}
+{% block content %}
+
+<h2 class="title1">Title: {{obj.title|title}} <span class="badge badge-success">{{obj.status}}</span></h2>
+<div class="blank-page widget-shadow scroll" id="style-2 div1">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% if form.errors %}
+    <p>errors</p>
+    {% for err in form.errors %}
+    <p> {{err}}</p>
+    {% endfor %}
+    {% endif %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="pull-left" style="padding-top: 17px;">
+
+                        <!-- priority can be change -->
+                    </div>
+                    <div class="pull-right">
+
+                        <form id="form1" class="form-inline" method="POST"
+                            action="{% url 'faulty_logging:update_details_fault' obj.id %}">
+                            {% csrf_token %}
+
+
+                            <div class="form-group">
+                                {{form.title|as_crispy_field }}
+                            </div>
+
+
+
+                            <div class="form-group">
+                                {{ form.priority|as_crispy_field }}
+                            </div>
+
+
+                            <div class="form-group">
+                                {{ form.company|as_crispy_field }}
+                            </div>
+
+
+                            <div class="form-group">
+                                {{ form.email|as_crispy_field}}
+                            </div>
+
+
+
+                            <div class="form-group">
+                                {{ form.phone_number|as_crispy_field}}
+                            </div>
+
+
+
+                            <div class="form-group">
+                                {{ form.faulty_close_date|as_crispy_field}}
+                            </div>
+
+
+
+                            <div class="form-group">
+                                {{ form.status|as_crispy_field}}
+                            </div>
+
+
+
+                            <div class="form-group">
+                                {{ form.service|as_crispy_field}}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form.assigned_to|as_crispy_field}}
+                            </div>
+
+
+                            <div class="form-group">
+                                {{ form.faulty_decription|as_crispy_field}}
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </div>
+        <hr>
+
+        <div class="row">
+            <div class="col-md-4">
+                <p>Title</p>
+                <p><strong>{{obj.title|title}}</strong></p>
+                <p>Phone Number</p>
+                <p><strong>{{obj.phone_number}}</strong></p>
+
+            </div>
+            <div class="col-md-4">
+                <p>Contact Person</p>
+                <p><strong>{{obj.contact_name|title}}</strong></p>
+                <p>Email</p>
+                <p><strong>{{obj.email}}</strong></p>
+            </div>
+            <div class="col-md-4">
+                <p>Log Date</p>
+                <p><strong>{{obj.timestamp|date:"M d, Y"}}</strong></p>
+                <p>Closing Date</p>
+                <p><strong>{{obj.faulty_close_date|date:"M d, Y"}}</strong></p>
+                {% now "Y-m-d" as todays_date %}
+                {% if todays_date > obj.faulty_close_date|date:"Y-m-d" %}
+                <p> <span class="fa-stack fa-lg" style="color:red;"><i class="fa fa-circle fa-stack-2x"></i><i
+                            class="fa fa-exclamation-triangle fa-stack-1x fa-inverse"></i></span></p>
+                {% else %}
+                <p> <span class="fa-stack fa-lg" style="color:green;"><i class="fa fa-circle fa-stack-2x"></i><i
+                            class="fa fa-check fa-stack-1x fa-inverse"></i></span></p>
+                {% endif %}
+            </div>
+
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <p>Description</p>
+                <p><strong>{{obj.faulty_decription}}</strong></p>
+
+            </div>
+        </div>
+
+
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="title1">Product/Service</h2>
+                    <p><strong>{{obj.service.title|title}}</strong></p>
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-12">
+
+                <h2 class="title1">Resources Assigned</h2>
+            </div>
+
+            <div class="col-md-4">
+                {% if u %}
+                {% for u in assigned %}
+                <p>{{u.first_name|title}} {{u.last_name|title}}</p>
+                {% endfor %}
+                {% else %}
+                <p>No resouces assigned</p>
+                {% endif %}
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+</div>
+
+<h2 class="title1" style="margin-top: 0.8em;">Enter your Comments/Notes</h2>
+<div class="blank-page widget-shadow scroll" id="style-2 div1">
+    <form id="form1" class="form" method="POST" action="{% url 'faulty_logging:fault_comment' obj.id %}">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form_1.decription|as_crispy_field}}
+        </div>
+        <div class="form-group">
+            {{ form_1.enquiry|as_crispy_field}}
+        </div>
+        <div class="form-group">
+            {{ form_1.user|as_crispy_field}}
+        </div>
+        <button type="submit" class="btn btn-primary">Post Comment</button>
+    </form>
+</div>
+
+<h2 class="title1" style="margin-top: 0.8em;">Posted Comments</h2>
+{% if obj_ %}
+<div class="blank-page widget-shadow scroll" id="style-2 div1">
+    {% for comment in obj_ %}
+    <div class="row">
+        <div class="col-md-2">
+            {% if user.id == comment.user.id %}
+            <a href="{%  url 'faulty_logging:delete_comment' comment.id %}"> <i class="fa fa-lg fa-trash-o"
+                    aria-hidden="true" style="color:red;"></i> Delete</a>
+            {% endif %}
+        </div>
+        <div class="col-md-10">
+            <h4>{{comment.user|title}}</h4>
+            <small>{{comment.timestamp|date:"M d, Y"}}</small>
+            <p>{{comment.decription}}</p>
+        </div>
+    </div>
+
+    <hr>
+    {% endfor %}
+</div>
+{% else %}
+<div class="blank-page widget-shadow scroll" id="style-2 div1">
+    No Comments on this enquiry.
+</div>
+{% endif %}
+
+
+{% endblock %}

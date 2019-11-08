@@ -1,0 +1,113 @@
+{% load staticfiles %}
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>{{company_name}}</title>
+        <style type="text/css">
+            body {
+            font-weight: 200;
+            font-size: 14px;
+            }
+            .header {
+            font-size: 20px;
+            font-weight: 100;
+            text-align: center;
+            color: #007cae;
+            }
+            .title {
+            font-size: 22px;
+            font-weight: 100;
+            /* text-align: right;*/
+            padding: 10px 20px 0px 20px;
+            }
+            .title span {
+            color: #007cae;
+            }
+            .details {
+            padding: 10px 20px 0px 20px;
+            text-align: left !important;
+            /*margin-left: 40%;*/
+            }
+            .hrItem {
+            border: none;
+            height: 1px;
+            /* Set the hr color */
+            color: #333; /* old IE */
+            background-color: #fff; /* Modern Browsers */
+            }
+            .th_header{
+            white-space:nowrap;
+            }
+            table {
+            width: 100%;
+            }
+
+            th {
+            height: 50px;
+            text-align: left;
+            }
+            table, td, th {
+          border: 1px solid black;
+         }
+         /* .invoice_header{
+            color: #ffffff;
+            background: linear-gradient(to right, rgba(12, 12, 12, 0.85), rgb(249, 164, 61));
+         } */
+        </style>
+    </head>
+    <body>
+    <div class='wrapper'>
+            <div class='header'>
+                <p>Invoice #: {{invoice_number}} </p>
+                <img src="http://127.0.0.1:8000/static/images/pdf.png" alt="" class="img-fluid" width="auto" height="70px">
+            </div>
+        <div>
+                <br>
+        <div class='details'>
+          <div style="background-color: rgba(238, 229, 229, 0.829);">
+            Bill to: {{company_name|title}} <br>
+            Address : {{address}} <br>
+            Date:  {{today}}<br>
+            Sales person : {{sale_person|title}}
+          </div>
+          <br>
+           <table class="table table-hover">
+               <thead>          
+                   <tr>
+                        <th class="th_header"> Title</th>
+                        <th class="th_header">Description</th>
+                        <th class="th_header">Quantity</th>
+                        <th class="th_header">Unit Price</th>
+                        <th class="th_header">Total</th>
+                      
+                   </tr>
+              
+               </thead>
+               <tbody>
+                    {% for i in line_items %}
+                   <tr>
+                       <td>{{i.title|title}}</td>
+                       <td>{{i.description}}</td>
+                       <td>{{i.quantity}}</td>
+                        <td>{{i.unit_price}}</td>
+                        <td>{{i.line_item_total}}</td>
+                       
+                   </tr>
+            
+                   {% endfor %}
+                 
+        
+                
+               </tbody>
+            
+        
+           </table>
+    <div>
+           <p>Total: <span>{{total}}</span></p> 
+    </div>
+    
+           <hr class='hrItem'/>
+        </div>
+    </div>
+    </body>
+</html>

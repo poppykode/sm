@@ -1,0 +1,80 @@
+{% extends 'shared/shared.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% block title %}SolarShark :: Log Fault{% endblock %}
+{% block content %}
+<h2 class="title1">Log Fault</h2>
+<div class="form-grids row widget-shadow" data-example-id="basic-forms">
+        <div class="form-body">
+                <form action="{% url 'faulty_logging:create' %}" method="POST">
+                        {% csrf_token %}
+
+                        <div class="row">
+                                <div class="col-md-4">
+                                        <div class="form-group">
+                                                {{form.title|as_crispy_field }}
+                                        </div>
+                                </div>
+                                <div class="col-md-4">
+
+                                        <div class="form-group">
+                                                {{ form.priority|as_crispy_field }}
+                                        </div>
+                                </div>
+                                <div class="col-md-4">
+                                        <div class="form-group">
+                                                {{ form.company|as_crispy_field }}
+                                        </div>
+                                </div>
+                                <div class="col-md-4">
+                                        <div class="form-group">
+                                                {{ form.email|as_crispy_field}}
+                                        </div>
+                                </div>
+                                <div class="col-md-4">
+
+                                        <div class="form-group">
+                                                {{ form.phone_number|as_crispy_field}}
+                                        </div>
+                                </div>
+                        
+                                <div class="col-md-4">
+                                        <div class="form-group">
+                                                {{ form.faulty_close_date|as_crispy_field}}
+                                        </div>
+                                </div>
+                
+                                <div class="col-md-4">
+                                        <div class="form-group">
+                                                {{ form.status|as_crispy_field}}
+                                        </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                        <div class="form-group">
+                                                {{ form.service|as_crispy_field}}
+                                        </div>
+                                </div>
+                                <div class="col-md-12">
+
+                                        <div class="form-group">
+                                                {{ form.assigned_to|as_crispy_field}}
+                                        </div>
+                                </div>
+                                <div class="col-md-12">
+                                        <div class="form-group">
+                                                {{ form.faulty_decription|as_crispy_field}}
+                                        </div>
+                                </div>
+                       
+
+                                <div class="col-md-12">
+                                        <button type="submit" class="btn btn-primary">Log Fault</button>
+                                </div>
+                        </div>
+
+                </form>
+        </div>
+</div>
+
+{% endblock %}

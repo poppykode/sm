@@ -1,0 +1,117 @@
+{% extends 'shared/shared.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% block title %}SolarShark :: Edit Enquiry{% endblock %}
+{% block content %}
+            <h2 class="title1">Update Enquiry</h2>
+            <div class="form-grids row widget-shadow" data-example-id="basic-forms"> 
+                    <div class="form-body">
+<form  method="POST">
+    {% csrf_token %}
+
+<div class="row">
+<div class="col-md-4">
+        <div class="form-group">
+                {{ form.title|as_crispy_field }}
+            </div>
+</div>
+<div class="col-md-4">
+  
+        <div class="form-group">
+                {{ form.company|as_crispy_field }}
+            </div>
+</div>
+<div class="col-md-4">
+        <div class="form-group">
+                {{ form.contact_name|as_crispy_field }}
+            </div>
+</div>
+<div class="col-md-4">
+        <div class="form-group">
+                {{ form.email|as_crispy_field}}
+            </div>
+</div>
+<div class="col-md-4">
+
+        <div class="form-group">
+                {{ form.phone_number|as_crispy_field}}
+            </div>
+</div>
+<div class="col-md-4">
+
+        <div class="form-group">
+                {{ form.priority|as_crispy_field}}
+            </div>
+</div>
+
+<div class="col-md-4">
+        <div class="form-group">
+                {{ form.assigned_to|as_crispy_field}}
+            </div>
+</div>
+
+<div class="col-md-4">
+        <div class="form-group">
+                {{ form.channel|as_crispy_field}}
+            </div>
+</div>
+<div class="col-md-4">
+        <div class="form-group">
+                {{ form.service|as_crispy_field}}
+            </div>
+</div>
+<div class="col-md-4">
+        <div class="form-group">
+                {{ form.value|as_crispy_field}}
+            </div>
+</div>
+<div class="col-md-4">
+        <div class="form-group">
+                {{ form.status|as_crispy_field}}
+            </div>
+</div>
+<div class="col-md-4">
+        <div class="form-group">
+                {{ form.next_follow_up|as_crispy_field}}
+            </div>
+</div>
+
+
+<div class="col-md-4">
+        <div class="form-group">
+                {{ form.website|as_crispy_field}}
+            </div>
+</div>
+
+<div class="col-md-4">
+        <div class="form-group">
+                {{ form.service_mode|as_crispy_field}}
+            </div>
+</div>
+<div class="col-md-4">
+                <div class="form-group">
+                        {{ form.address|as_crispy_field}}
+                </div>
+        </div>
+<div class="col-md-4">
+        <div class="form-group">
+                {{ form.attended_to|as_crispy_field}}
+            </div>
+</div>
+<div class="col-md-12">
+
+        <div class="form-group">
+                {{ form.decription|as_crispy_field}}
+            </div>
+</div>
+
+<div class="col-md-12">
+        <button type="submit" class="btn btn-primary">Update Enquiry</button>
+</div>
+</div>
+
+</form>
+            </div>
+        </div>
+
+{% endblock %}

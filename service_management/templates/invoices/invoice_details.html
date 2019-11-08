@@ -1,0 +1,39 @@
+{% extends 'shared/shared.html' %}
+{% load staticfiles %}
+{% block title %}SolarShark :: {{obj.enquiry.title}}{% endblock %}
+{% block content %}
+<div class="tables">
+    <h2 class="title1">Title of Enquiry: {{obj.enquiry.title|title}}</h2>
+    <div class="panel-body widget-shadow">
+        <p class="pull-left">Company: {{obj.enquiry.company|title}}   </p>
+        <p  class="pull-right">{{obj.address}} </p>
+              <table class="table">
+            <thead>
+            
+                <tr>
+                  <th>#</th>
+                  <th>Title</th>
+                  <th>Description</th>
+                  <th>Quantity</th>
+                  <th>Unit Price</th>
+                  <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                    {% for u in obj.lineitem_set.all %}
+                <tr>
+                  <th scope="row">1</th>
+                  <td>{{u.title|title}}</td>
+                  <td>{{u.description}}</td>
+                  <td>{{u.quantity}}</td>
+                  <td>{{u.unit_price}}</td>
+                  <td>{{u.line_item_total}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+ 
+  
+</div>
+{% endblock %}

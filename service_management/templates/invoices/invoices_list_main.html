@@ -1,0 +1,96 @@
+{% extends 'shared/shared.html' %}
+{% load staticfiles %}
+{% block title %}SolarShark :: Invoices{% endblock %}
+{% block content %}
+<h2 class="title1">Invoices</h2>
+        <div class="tables row-one">
+      
+          <div class="panel-body widget-shadow">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+            
+           {% if obj %}
+              <div class="table-responsive" >
+                  <table  class="table display w-auto" id="myTable">
+                      <thead>
+                      
+                          <tr>
+                                <th style='white-space:nowrap;'>Invoice Number</th>  
+                              <th style='white-space:nowrap;'>Title</th>  
+                              <th style='white-space:nowrap;'>Company</th> 
+                              <th style='white-space:nowrap;'>Enquiry Date</th>
+                              <th style='white-space:nowrap;'></th>    
+                          </tr>
+                      </thead>
+                      <tbody>
+                          {% for u in obj %}
+                          <tr>
+                           
+                         
+                                    <div class="card-body">
+                                            <div>
+                                                        
+                                                <div class="card-header">
+                                                    
+                                                    <td>
+                                                            <span class="badge badge-success">{{u.invoice_number}}</span>
+                                                    </td>
+                                                <td>
+                                                    <i class="fa fa-folder-open-o" style="color: brown;"></i> <span>{{u.enquiry.title|title}}</span> 
+                                                   
+                                                </td>
+                                                <td>
+                                                         <i class="fa fa-building-o" style="color: pink;"></i> <span>{{u.enquiry.contact_name|title}}</span>  
+                                                       
+                                                </td>
+                                                <td>
+                                                        <i class="fa fa-clock-o"  style="color: silver;"></i> <span>{{u.enquiry.timestamp}}</span>
+                                                    
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'invoices:invoices_details' u.id %}"><i class="fa fa-binoculars"></i></a>
+                                                </td>
+ 
+                                                
+                                                </div>
+                                                    </div>
+                                                </div>
+
+                            
+                          </tr>
+                      {% endfor %}
+                      </tbody>
+                  </table>
+              </div>
+              {% else %}
+              <div class=" table-responsive">
+                  <table class="table">
+                      <thead>
+                          <tr>
+                              <th>No Invoices at the moment</th>
+                          </tr>
+                        </thead>
+                        </table>
+                        </div>
+              {% endif %}
+           
+          </div>
+      
+      </div>
+      {% block scripty %}
+      <script>  
+$(document).ready( function () {
+    $('#myTable').DataTable();
+} );
+     </script>
+    {% endblock %}
+
+{% endblock %}

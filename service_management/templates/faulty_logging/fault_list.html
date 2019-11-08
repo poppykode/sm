@@ -1,0 +1,143 @@
+{% extends 'shared/shared.html' %}
+{% load staticfiles %}
+{% block title %}SolarShark :: Faults{% endblock %}
+{% block content %}
+<div class="col_3">
+  {% if messages %}
+  {% for message in messages %}
+  <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    {{ message }}
+  </div>
+  {% endfor %}
+  {% endif %}
+  <div class="col-md-3 widget widget1">
+    <div class="r3_counter_box">
+      <i class="pull-left fa fa-comments-o icon-rounded"></i>
+      <div class="stats">
+        <h5><strong>{{all}}</strong></h5>
+        <span>All</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3 widget widget1">
+    <div class="r3_counter_box">
+      <i class="pull-left fa fa-files-o user1 icon-rounded"></i>
+      <div class="stats">
+        <h5><strong>{{open}}</strong></h5>
+        <span>Open</span>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 widget widget1">
+    <div class="r3_counter_box">
+
+      <i class="pull-left fa fa-file user2 icon-rounded"></i>
+      <div class="stats">
+        <h5><strong>{{wip}}</strong></h5>
+        <span>WIP</span>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 widget widget1">
+    <div class="r3_counter_box">
+      <i class="pull-left fa fa-pie-chart dollar1 icon-rounded"></i>
+      <div class="stats">
+        <h5><strong>{{closed}}</strong></h5>
+        <span>Closed</span>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 widget">
+    <div class="r3_counter_box">
+      <i class="pull-left fa fa-users dollar2 icon-rounded"></i>
+      <div class="stats">
+        <h5><strong>{{due}}</strong></h5>
+        <span>Due</span>
+      </div>
+    </div>
+  </div>
+  <div class="clearfix"> </div>
+</div>
+
+<div class="tables row-one">
+
+  <div class="panel-body widget-shadow">
+
+    <a href="{% url 'faulty_logging:create' %}" type="button" class="btn btn-success btn-flat btn-pri btn-lg"
+      style="margin-bottom:10px;"><i class="fa fa-plus" aria-hidden="true"></i> Log Fault</a>
+    <br>
+
+    {% if obj %}
+    <div class="table-responsive">
+      <table class="table display w-auto" id="myTable">
+        <thead>
+
+          <tr>
+            <th style='white-space:nowrap;'></th>
+            <th style='white-space:nowrap;'>Title</th>
+            <th style='white-space:nowrap;'>Priority</th>
+            <th style='white-space:nowrap;'>Client</th>
+            <th style='white-space:nowrap;'>Status</th>
+            <th style='white-space:nowrap;'>Logged On</th>
+            <th style='white-space:nowrap;'>Faulty Close Date</th>
+            <th style='white-space:nowrap;'></th>
+            <th style='white-space:nowrap;'></th>
+            <th style='white-space:nowrap;'></th>
+
+
+          </tr>
+        </thead>
+        <tbody>
+          {% for u in obj %}
+          
+          <tr>
+            {% now "Y-m-d" as todays_date %}
+            {% if todays_date > u.faulty_close_date|date:"Y-m-d" %}
+            <td> <span class="fa-stack fa-lg" style="color:red;"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-exclamation-triangle fa-stack-1x fa-inverse"></i></span></td>
+            {% else %}
+           <td> <span class="fa-stack fa-lg" style="color:green;"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-check fa-stack-1x fa-inverse"></i></span></td>
+            {% endif %}
+            <td>{{u.title|title}}</td>
+            <td>{{u.priority|title}}</td>
+            <td>{{u.company|title}}</td>
+            <td>{{u.status}}</td>  
+            <td>{{u.timestamp|date:"M d, Y"}}</td>  
+            <td>{{u.faulty_close_date|date:"M d, Y"}}</td>
+  
+        <td><a href="#"><i class="fa fa-pencil"></i></a></td>
+            <td><a href="{% url 'faulty_logging:delete_fault' u.id %}"><i class="fa fa-trash-o"></i></a></td>
+            <td><a href="{% url 'faulty_logging:fault_details' u.pk %}"><i class="fa fa-binoculars"></i></a></td> 
+
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class=" table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>No Fault/s at the moment</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    {% endif %}
+
+  </div>
+
+</div>
+{% block scripty %}
+<script>
+  $(document).ready(function () {
+    $('#myTable').DataTable();
+  });
+</script>
+{% endblock %}
+
+{% endblock %}
