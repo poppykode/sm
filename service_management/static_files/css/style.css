@@ -46,7 +46,11 @@ body a:hover{
     text-transform: uppercase;
     color: #fff;
 }
-#div_id_assigned_to{
+#div_id_assigned_to2{
+  display: none;
+}
+
+#div_id_resources2{
   display: none;
 }
 span.dashboard_text {

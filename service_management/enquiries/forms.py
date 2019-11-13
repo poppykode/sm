@@ -17,7 +17,7 @@ class EnquiryForm(forms.ModelForm):
             'address': forms.Textarea(attrs={'rows':1,},),
             'status': forms.TextInput(attrs={'readonly':True},),
         }
-        fields = ('title','company','contact_name','email','phone_number','priority','assigned_to','channel','service','value','status','next_follow_up','attended_to','decription','website','service_mode','address') 
+        fields = ('title','company','contact_name','email','phone_number','priority','assigned_to','channel','service','status','next_follow_up','attended_to','decription','website','service_mode','address') 
 
     # def __init__(self, user, *args, **kwargs):
     #     super(EnquiryForm, self).__init__(*args, **kwargs)
@@ -36,7 +36,6 @@ class EnquiryDetailForm(forms.ModelForm):
             'status':forms.Select(attrs={'onchange':'submit();'},),
             'attended_to':forms.Select(attrs={'onchange':'submit();'},),
             'priority':forms.Select(attrs={'onchange':'submit();'},),
-            'assessment_date': forms.DateInput(attrs={'onchange':'submit();','class':'datepicker','type':'date','data-date-format':'YYYY-MM-DD'}),
             'title':forms.TextInput(attrs={'onchange':'submit();','type':'hidden'},),
             'company': forms.TextInput(attrs={'onchange':'submit();','type':'hidden'},),
             'contact_name': forms.TextInput(attrs={'onchange':'submit();','type':'hidden'},),
@@ -45,12 +44,11 @@ class EnquiryDetailForm(forms.ModelForm):
             'assigned_to': forms.TextInput(attrs={'onchange':'submit();','type':'hidden'},),
             'channel': forms.TextInput(attrs={'onchange':'submit();','type':'hidden'},),
             'service': forms.TextInput(attrs={'onchange':'submit();','type':'hidden'},),
-            'value': forms.TextInput(attrs={'onchange':'submit();','type':'hidden'},),
             'decription': forms.TextInput(attrs={'onchange':'submit();','type':'hidden',},),
             'website': forms.TextInput(attrs={'onchange':'submit();','type':'hidden'},),
             'service_mode': forms.TextInput(attrs={'onchange':'submit();','type':'hidden'},),
         }
-        fields = ('title','company','contact_name','email','phone_number','priority','assigned_to','channel','service','value','status','next_follow_up','attended_to','decription','website','service_mode','address','assessment_date')
+        fields = ('title','company','contact_name','email','phone_number','priority','assigned_to','channel','service','status','next_follow_up','attended_to','decription','website','service_mode','address')
 
        
 class CommentForm(forms.ModelForm):

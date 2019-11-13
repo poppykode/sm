@@ -1,0 +1,179 @@
+{% extends 'shared/shared.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% block title %}SolarShark :: {{obj.title|title}}{% endblock %}
+{% block content %}
+
+<h2 class="title1">Title: {{obj.title|title}} <span class="badge badge-success">{{obj.status}}</span></h2>
+<div class="blank-page widget-shadow scroll" id="style-2 div1">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% if form.errors %}
+    <p>errors</p>
+    {% for err in form.errors %}
+    <p> {{err}}</p>
+    {% endfor %}
+    {% endif %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="pull-left" style="padding-top: 17px;">
+
+                        <h4><i class="fa fa-hourglass-start" style="color: green;"></i> Start Date :
+                            {{obj.start_date|date:"M d, Y"}}</h4>
+                        <br>
+                        <h4><i class="fa fa-hourglass-end" style="color: red;"></i> End Date :
+                            {{obj.end_date|date:"M d, Y"}}</h4>
+                    </div>
+                    <div class="pull-right">
+                            {% if request.user.is_superuser or request.user.is_customer_services %}
+                            <div class="pull-left" style="padding-top: 17px;">
+                                    <a href="{% url 'projects:update_pai' obj.pk %}" type="button"
+                                    class="btn btn-warning btn-flat btn-pri btn-lg" style="margin-bottom:10px;"><i
+                                        class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
+                                    <!-- priority can be change -->
+                                </div>
+                        {% endif %}
+                       {% if request.user.is_technician or request.user.is_sub_contractor %}
+                        <form id="form1" class="form-inline" method="POST" action="{% url 'projects:update_details_pai' obj.id %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                {{form.type|as_crispy_field }}
+                            </div>
+                            <div class="form-group">
+                                {{form.title|as_crispy_field }}
+                            </div>
+                            <div class="form-group">
+                                {{form.status|as_crispy_field }}
+                            </div>
+                            <div class="form-group">
+                                {{form.client|as_crispy_field }}
+                            </div>
+                            <div class="form-group">
+                                {{form.value|as_crispy_field }}
+                            </div>
+                            <div class="form-group">
+                                {{form.resources|as_crispy_field }}
+                            </div>
+                            <div class="form-group">
+                                {{form.start_date|as_crispy_field }}
+                            </div>
+                            <div class="form-group">
+                                {{form.end_date|as_crispy_field }}
+                            </div>
+                            <div class="form-group">
+                                {{form.description|as_crispy_field }}
+                            </div>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="col-md-12">
+            <div class="row">
+                <hr>
+                <div class="col-md-8">
+
+                    <h2 class="title1">Description</h2>
+                    <p>{{obj.description}}</p>
+                </div>
+                <div class="col-md-4">
+
+                        <h2 class="title1">More Info</h2>
+                        <p>Client: {{obj.client|title}}</p>
+                        <p>Value: ${{obj.value|title}}</p>
+                    </div>
+            </div>
+        </div>
+
+    </div>
+
+    <hr>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-12">
+
+                <h2 class="title1">Project Team</h2>
+                {% if resoures %}
+
+                {% for r in resoures %}
+                <p>{{r.first_name|title}} {{r.last_name|title}} | <span><a
+                            href="{% url 'projects:task_details' r.id obj.id %}"><i
+                                class="fa fa-thumb-tack"></i></a></span>
+                </p>
+                {% endfor %}
+
+                {% else %}
+                <p>No resoures assigned.</p>
+                {% endif %}
+            </div>
+
+            <div class="col-md-4">
+
+            </div>
+            <div class="col-md-4">
+
+            </div>
+            <div class="col-md-4">
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<h2 class="title1" style="margin-top: 0.8em;">Enter your Comments/Notes</h2>
+<div class="blank-page widget-shadow scroll" id="style-2 div1">
+    <form id="form1" class="form" method="POST" action="{% url 'projects:pai_comment' obj.id %}">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form_1.decription|as_crispy_field}}
+        </div>
+        <div class="form-group">
+            {{ form_1.project_installation_assessement|as_crispy_field}}
+        </div>
+        <div class="form-group">
+            {{ form_1.user|as_crispy_field}}
+        </div>
+        <button type="submit" class="btn btn-primary">Post Comment</button>
+    </form>
+</div>
+
+<h2 class="title1" style="margin-top: 0.8em;">Posted Comments</h2>
+{% if obj_ %}
+<div class="blank-page widget-shadow scroll" id="style-2 div1">
+    {% for comment in obj_ %}
+    <div class="row">
+        <div class="col-md-2">
+            {% if user.id == comment.user.id %}
+            <a href="#"> <i class="fa fa-lg fa-trash-o" aria-hidden="true" style="color:red;"></i> Delete</a>
+            {% endif %}
+        </div>
+        <div class="col-md-10">
+            <h4>{{comment.user|title}}</h4>
+            <small>{{comment.timestamp|date:"M d, Y"}}</small>
+            <p>{{comment.decription}}</p>
+        </div>
+    </div>
+
+    <hr>
+    {% endfor %}
+</div>
+{% else %}
+<div class="blank-page widget-shadow scroll" id="style-2 div1">
+    No Comments on this enquiry.
+</div>
+{% endif %}
+
+
+{% endblock %}

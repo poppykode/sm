@@ -55,6 +55,7 @@ class Task(models.Model):
     end_date = models.DateTimeField()
     timestamp = models.DateTimeField(auto_now_add=True,auto_now=False)
     updated = models.DateTimeField(auto_now_add=False,auto_now=True)
+    completed = models.BooleanField(default=False)
 
     def  __str__(self): 
         return self.user.username

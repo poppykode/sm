@@ -10,7 +10,6 @@ class Enquiry(models.Model):
     STATUS_ =(
         ('new','New'),
         ('open','Open'),
-        ('assement','Assement'),
         ('lost','Lost'),
         ('won','Won'),
         )
@@ -27,13 +26,11 @@ class Enquiry(models.Model):
     priority = models.ForeignKey('Priority',on_delete=models.CASCADE)
     channel = models.ForeignKey('Channel',on_delete=models.CASCADE, related_name='channel')
     service = models.ForeignKey('Service',on_delete=models.CASCADE)
-    value = models.CharField(max_length=255,blank=True, null=True)
     status = models.CharField(max_length=255,choices=STATUS_,default="new")
     next_follow_up =  models.DateField(blank=True,null=True)
     decription = models.TextField()
     address = models.TextField(blank=True,null=True)
     website = models.URLField(max_length=255,blank=True,null=True)
-    assessment_date =  models.DateField(blank=True,null=True)
     service_mode = models.ForeignKey('Channel',on_delete=models.CASCADE, related_name='service_mode',blank=True, null=True)
 
     def  __str__(self): 

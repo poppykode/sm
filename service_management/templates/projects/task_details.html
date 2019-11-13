@@ -1,0 +1,113 @@
+{% extends 'shared/shared.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% block title %}SolarShark :: {{user_.first_name|title}}{% endblock %}
+{% block content %}
+
+<h2 class="title1">Resource: <strong>{{user_.first_name|title}} {{user_.last_name|title}}  {{user_.username|title}}</strong></h2>
+<h4>Project: <strong><a href="{% url 'projects:details_pai' pai.id %}">{{pai.title|title}}</a> </strong></h4>
+<br>
+<div class="blank-page widget-shadow scroll" id="style-2 div1">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% if form.errors %}
+    <p>errors</p>
+    {% for err in form.errors %}
+    <p> {{err}}</p>
+    {% endfor %}
+    {% endif %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    {% if request.user.is_superuser or request.user.is_customer_services %}
+                    <div class="pull-left" style="padding-top: 17px;">
+                        <a href="{% url 'projects:task_create' user.id pai.id %}" type="button"
+                            class="btn btn-success btn-flat btn-pri btn-lg" style="margin-bottom:10px;"><i
+                                class="fa fa-plus" aria-hidden="true"></i>Add Tasks</a>
+                    </div>
+                    {% endif %}
+                    <div class="pull-right">
+                        <form id="form1" class="form-inline" method="POST">
+
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        {% if obj %}
+
+                        <table class="table display w-auto" id="myTable">
+                            <thead>
+
+                                <tr>
+
+                                    <th style='white-space:nowrap;'>Description</th>
+                                    <th style='white-space:nowrap;'>Start Date</th>
+                                    <th style='white-space:nowrap;'>End Date</th>
+                                    <th style='white-space:nowrap;'>Completed</th>
+                                    {% if request.user.is_superuser or request.user.is_customer_services %}
+                                    <th style='white-space:nowrap;'></th>
+                                    <th style='white-space:nowrap;'></th>
+                                    {% endif %}
+                                    {% if request.user.is_technician %}
+                                    <th style='white-space:nowrap;'></th>
+                                    {% endif %}
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for tsks in obj %}
+                                <tr>
+
+                                    <td>{{tsks.decription}}</td>
+                                    <td>{{tsks.start_date|date:"M d, Y"}}</td>
+                                    <td>{{tsks.end_date|date:"M d, Y"}}</td>
+                                    {% ifequal tsks.completed False %}
+                                    <td>no</td>
+                                    {% endifequal %}
+                                    {% ifequal tsks.completed True %}
+                                    <td>Yes</td>
+                                    {% endifequal %}
+                                    {% if request.user.is_superuser or request.user.is_customer_services %}
+                                    <td><a href="#"><i class="fa fa-pencil"></i></a></td>
+                                    <td><a href="#"><i class="fa fa-trash-o" style="color: red;;"></i></a></td>
+                                    {% endif %}
+                                    {% if request.user.is_technician or request.user.is_sub_contractor %}
+                                    <td><a href="{% url 'dashboard:toggle_task_status' tsks.id %}">toggle status</a></td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% else %}
+                        <p>no Tasks assigned to user</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+
+</div>
+
+{% endblock %}

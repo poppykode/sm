@@ -104,51 +104,53 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                 </a>
                 <ul class="treeview-menu">
                   <li><a href="{% url 'enquiries:overview' %}"><i class="fa fa-angle-right"></i> Overview</a></li>
-                  <li><a href="{% url 'invoices:overview' %}"><i class="fa fa-angle-right"></i> Invoices</a></li>
+                  <li><a href="{% url 'invoices:overview' %}"><i class="fa fa-angle-right"></i> Quotations</a></li>
                 </ul>
 			  </li>
 			  <li>
-				<a href="{% url 'faulty_logging:overview' %}">
-					 <i class="fa fa-cogs"></i> <span>Faults</span>               
+				<a href="{% url 'projects:all_project_installation_assessement' %}">
+						<i class="fa fa-briefcase"></i> <span>PAI</span>               
 				</a>
 			  </li>
 			  {% endif %}
 			  {% if request.user.is_sales %}
 			  <li>
                 <a href="{% url 'invoices:overview' %}">
-                <i class="fa fa-file-o"></i> <span>Invoices</span>               
+                <i class="fa fa-file-o"></i> <span>Quotations</span>               
                 </a>
               </li>
 			  {% endif %}
-			  <li>
-                <a href="{% url 'assessements:assements_list' %}">
-                <i class="fa fa-pencil-square-o"></i> <span>Assesments</span>               
-                </a>
-			  </li>
 		
 			  <li>
 				<a href="{% url 'faulty_logging:overview' %}">
-					 <i class="fa fa-cogs"></i> <span>Intallations</span>               
+					 <i class="fa fa-cogs"></i> <span>Faults</span>               
 				</a>
 			  </li>
+			  {% if request.user.is_superuser or request.user.is_customer_services %}
               <li>
                     <a href="{% url 'projects:all_project_installation_assessement' %}">
                   <i class="fa fa-pie-chart"></i> <span>Projects</span>               
                     </a>
 				  </li>
-				  {% if request.user.is_superuser   %}
+				
                   <li>
                         <a href="#">
                              <i class="fa fa-bar-chart"></i> <span>Reports</span>               
                         </a>
 					  </li>
 					  {% endif %}
-                      <li>
-						
-                        <a href="#">
-                             <i class="fa fa-cog"></i> <span>Settings</span>               
-                        </a>
-                      </li>
+                   <li class="treeview">
+									<a href="#">
+									<i class="fa fa-files-o"></i>
+									<span>Invoices</span>
+									<i class="fa fa-angle-left pull-right"></i>
+									</a>
+									<ul class="treeview-menu">
+									  <li><a href=""><i class="fa fa-angle-right"></i> View Invoices</a></li>
+									  <li><a href=""><i class="fa fa-angle-right"></i> Create Invoices</a></li>
+									</ul>
+								  </li>
+                      
                       <li class="header">USER PROFILE</li>
                       <li>
                             <a href="#">
@@ -346,8 +348,10 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                         <span>Sales</span>
                                         {% elif user.is_technician %}
                                         <span>Technician</span>
-                                        {% else %}
-                                        <span>Customer Services</span>
+                                        {% elif user.is_customer_services %}
+										<span>Customer Services</span>
+										{% else %}
+										<span>Sub Contractor</span>
                                         {% endif %}
 									</div>
 									<i class="fa fa-angle-down lnr"></i>

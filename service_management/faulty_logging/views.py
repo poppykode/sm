@@ -34,9 +34,6 @@ def details_fault(request,pk):
     template_name = 'faulty_logging/fault_details.html'
     qs = get_object_or_404(FaultyLogging, pk=pk)
     qs_ = Comment.objects.filter(fault=pk)
-    # i = qs.invoice_set.filter(enquiry=pk)
-    # is_assessement =qs.assessment_date
-    print("tasting the waters")
     r = qs.assigned_to.all()
     context ={
         'obj':qs,
@@ -57,7 +54,7 @@ def update_details_fault(request,pk):
             form.save()
             messages.success(request, 'Fault has been successfully updated!')
             return redirect('faulty_logging:fault_details',pk=pk)
-    messages.error(request, 'Please assign a resource to project!') 
+    messages.error(request, 'Something went wrong.') 
     return redirect('faulty_logging:fault_details',pk=pk)
 
 
@@ -116,3 +113,30 @@ def delete_fault(request,pk):
         messages.success(request, 'Fault has been successfully Deleted!')
         return redirect('faulty_logging:overview')
     return render(request,template_name, {'obj':qs})
+
+@login_required
+def user_faults(request):
+    template_name = 'faulty_logging/fault_user_list.html'
+    qs = FaultyLogging.objects.filter(assigned_to__contains=request.user.id)
+    print("faulty")
+    print(qs)
+    context = {
+        'obj':qs
+    }
+    return render(request,template_name,context)
+
+@login_required
+def update_fault(request,pk):
+    template_name = 'faulty_logging/fault_edit.html'
+    qs= get_object_or_404(FaultyLogging, pk=pk)
+    if request.method =='POST':
+        form = FaultyLogForm(request.POST,instance=qs)
+        print(form.errors.as_data())
+        if form.is_valid():                          
+            form.save()
+            messages.success(request, 'Update succesfull.')
+            return redirect('faulty_logging:fault_details',pk=pk) 
+    else:   
+        context = {'form': FaultyLogForm(instance=qs)}
+    return render(request, template_name, context)
+

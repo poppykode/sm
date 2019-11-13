@@ -97,8 +97,6 @@ def details_enquiries(request,pk):
     qs = get_object_or_404(Enquiry, pk=pk)
     qs_ = Comment.objects.filter(enquiry=pk)
     i = qs.invoice_set.filter(enquiry=pk)
-    is_assessement =qs.assessment_date
-    print(is_assessement)
     i_=i.count()
     context ={
         'obj':qs,

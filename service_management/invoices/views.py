@@ -114,11 +114,11 @@ def invoice_save(request):
                         'line_items':line_items,  
                         'total' :total
                         }
-                    pdf = render_to_pdf('invoices/invoice_template.html', data)
+                    pdf = render_to_pdf('invoices/quotation_template.html', data)
                     return HttpResponse(pdf, content_type='application/pdf')
                 messages.error(request,'Line items not created please try again later or contact support.')
                 return redirect('enquiries:enquiry_details',pk=pk)
-            messages.error(request,'Invoice not created please try again later or contact support.')
+            messages.error(request,'Quotation not created please try again later or contact support.')
             return redirect('enquiries:enquiry_details',pk=pk)
         messages.error(request,'Please add line item/s')
         return redirect('invoices:invoice_create',pk=pk)

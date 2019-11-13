@@ -21,8 +21,9 @@ class FaultyLogForm2(forms.ModelForm):
     class Meta:
         model = FaultyLogging
         labels = {
-            "necompanyxt_follow_up": "Client",
+            "company": "Client",
             "faulty_close_date": "Fault Closing Date",
+            "assigned_to":"",
         }
         widgets = {
             'status':forms.Select(attrs={'onchange':'submit();'},),
@@ -33,7 +34,7 @@ class FaultyLogForm2(forms.ModelForm):
             'company': forms.TextInput(attrs={'onchange':'submit();','type':'hidden'},),
             'email': forms.EmailInput(attrs={'onchange':'submit();','type':'hidden'},),
             'phone_number': forms.TextInput(attrs={'onchange':'submit();','type':'hidden'},),
-            'assigned_to': forms.SelectMultiple(attrs={'onchange':'submit();','type':'hidden'},),
+            'assigned_to': forms.SelectMultiple(attrs={'onchange':'submit();','type':'hidden','id':'div_id_assigned_to2'},),
             'service': forms.TextInput(attrs={'onchange':'submit();','type':'hidden'},),
         }
         fields = ("title", "priority", "company", "email", "phone_number",

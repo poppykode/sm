@@ -48,6 +48,8 @@ def sign_up(request):
                 new_form.is_sales = True
             elif designation =='tech':
                 new_form.is_technician = True
+            elif designation =='sub-contractor':
+                new_form.is_sub_contractor = True
             else:
                 new_form.is_customer_services =True
             new_form.save()       
@@ -68,7 +70,10 @@ def redirect_to_dashboard(request):
         return redirect('dashboard:sales')
     elif user.is_technician:
         messages.success(request, 'Welcome ' + user.username)
-        return redirect('dashboard:technican')
+        return redirect('dashboard:technician')
+    elif user.is_sub_contractor:
+        messages.success(request, 'Welcome ' + user.username)
+        return redirect('dashboard:technician')
     elif user.is_customer_services:
         messages.success(request,'Welcome ' + user.username)
         return redirect('enquiries:overview')
@@ -78,7 +83,6 @@ def redirect_to_dashboard(request):
 @login_required
 def users(request):
     template_name = 'registration/users/users.html' 
-    # to exclude logged in user
     qs = User.objects.filter().exclude(username = request.user.username)
     return render(request,template_name,{'obj':qs})
 

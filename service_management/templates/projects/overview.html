@@ -71,7 +71,7 @@
 
                         <div class="panel-body">
                       
-                          <a href="#" type="button" class="btn btn-success btn-flat btn-pri btn-lg"
+                          <a href="{% url 'projects:pai_create' %}" type="button" class="btn btn-success btn-flat btn-pri btn-lg"
                             style="margin-bottom:10px;"><i class="fa fa-plus" aria-hidden="true"></i> Create</a>
                           <br>
                       
@@ -95,7 +95,7 @@
                                 {% for u in obj %}
                                 <tr>
                                  
-                                  <td>{{u.title|title}}</td>
+                                  <td><a href="{% url 'projects:details_pai' u.id %}">{{u.title|title}}</a> </td>
                                   <td>{{u.client|title}}</td>
                                   <td>{{u.end_date|date:"M d, Y"}}</td>
                                   <td> <span class="badge badge-success">{{u.type}}</span></td>

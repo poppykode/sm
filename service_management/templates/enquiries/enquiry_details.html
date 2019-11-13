@@ -39,17 +39,13 @@
                             class="btn btn-danger btn-flat btn-pri btn-lg" style="margin-bottom:10px;"><i
                                 class="fa fa-trash-o" aria-hidden="true"></i> Delete</a>
                        {% endif %}
-                       <span class="badge badge-success">Number of invoices generated {{generated_invoices}}</span>
+                       <span class="badge badge-success">Number of quotations generated {{generated_invoices}}</span>
                             </div>
                     <div class="pull-right">
                         <form id="form1" class="form-inline" method="POST"
                             action="{% url 'enquiries:update_details_enquiry' obj.id %}">
                             {% csrf_token %}
-                            {% if request.user.is_sales and obj.assessment_date is None  %}
-                            <div class="form-group">
-                                    {{ form.assessment_date|as_crispy_field}}
-                            </div>
-                            {% endif %}
+                   
                             {% if request.user.is_superuser or  request.user.is_customer_services  %}
                             <div class="form-group" style="visibility:hidden;">
                                 {{ form.attended_to|as_crispy_field}}
@@ -111,9 +107,7 @@
                             <div class="form-group">
                                 {{ form.service|as_crispy_field}}
                             </div>
-                            <div class="form-group">
-                                {{ form.value|as_crispy_field}}
-                            </div>
+                          
                             <div class="form-group">
                                 {{ form.decription|as_crispy_field}}
                             </div>
@@ -130,7 +124,7 @@
             </div>
         </div>
         <hr>
-        <div class="col-md-6">
+       
             <div class="row">
                 <div class="col-md-4">
                     <p>Company Name</p>
@@ -149,18 +143,32 @@
                     <p>Enquiry Date</p>
                     <p><strong>{{obj.timestamp|date:"M d, Y"}}</strong></p>
 
+                    <p>Next Follow Up Date</p>
+                    {% now "Y-m-d" as todays_date %}
+                    {% if todays_date > obj.next_follow_up|date:"Y-m-d" %}
+                    <p> <span class="fa-stack fa-lg" style="color:red;"><i class="fa fa-circle fa-stack-2x"></i><i
+                                class="fa fa-exclamation-triangle fa-stack-1x fa-inverse"></i></span>{{obj.next_follow_up|date:"M d, Y"}}</p>
+                    {% else %}
+                    <p> <span class="fa-stack fa-lg" style="color:green;"><i class="fa fa-circle fa-stack-2x"></i><i
+                                class="fa fa-check fa-stack-1x fa-inverse"></i></span>{{obj.next_follow_up|date:"M d, Y"}}</p>
+                    {% endif %}
+
+
+                   
+                   
+
                 </div>
 
             </div>
-        </div>
-        <div class="col-md-6">
+      <hr>
+        <div class="col-md-12">
             <div class="row">
-                <div class="col-md-12">
-
-                    <p>Description</p>
+               
+                    <h2 class="title1">Description</h2>
+                 
                     <p><strong>{{obj.decription}}</strong></p>
 
-                </div>
+
             </div>
         </div>
 
@@ -206,12 +214,6 @@
             <div class="col-md-4">
                 <p>Channel Received</p>
                 <p><strong>{{obj.channel}}</strong></p>
-                <p>Value</p>
-                {% if obj.value %}
-                <p><strong>$ {{obj.value|title}}</strong></p>
-                {% else %}
-                <p><strong>n/a</strong></p>
-                {% endif %}
                 {% if obj.service_mode %}
                 <p>Fllow Up Mode</p>
                 <p><strong>{{obj.service_mode.title|title}}</strong></p>

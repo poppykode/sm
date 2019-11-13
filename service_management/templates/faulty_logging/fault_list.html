@@ -87,6 +87,7 @@
             <th style='white-space:nowrap;'></th>
             <th style='white-space:nowrap;'></th>
             <th style='white-space:nowrap;'></th>
+            <th style='white-space:nowrap;'></th>
 
 
           </tr>
@@ -108,9 +109,10 @@
             <td>{{u.timestamp|date:"M d, Y"}}</td>  
             <td>{{u.faulty_close_date|date:"M d, Y"}}</td>
   
-        <td><a href="#"><i class="fa fa-pencil"></i></a></td>
+           <td><a href="{% url 'faulty_logging:update_fault' u.pk %}"><i class="fa fa-pencil"></i></a></td>
             <td><a href="{% url 'faulty_logging:delete_fault' u.id %}"><i class="fa fa-trash-o"></i></a></td>
-            <td><a href="{% url 'faulty_logging:fault_details' u.pk %}"><i class="fa fa-binoculars"></i></a></td> 
+            <td><a href="{% url 'faulty_logging:fault_details' u.pk %}"><i class="fa fa-binoculars"></i></a></td>
+          
 
           </tr>
           {% endfor %}

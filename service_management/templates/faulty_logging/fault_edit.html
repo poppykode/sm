@@ -1,29 +1,29 @@
 {% extends 'shared/shared.html' %}
 {% load staticfiles %}
 {% load crispy_forms_tags %}
-{% block title %}SolarShark :: Create Enquiry{% endblock %}
+{% block title %}SolarShark :: Edit Fault{% endblock %}
 {% block content %}
-<h2 class="title1">Create Enquiry</h2>
+<h2 class="title1">Edit</h2>
 <div class="form-grids row widget-shadow" data-example-id="basic-forms">
         <div class="form-body">
-                <form action="{% url 'enquiries:create' %}" method="POST">
+                <form method="POST">
                         {% csrf_token %}
 
                         <div class="row">
                                 <div class="col-md-4">
                                         <div class="form-group">
-                                                {{ form.title|as_crispy_field }}
+                                                {{form.title|as_crispy_field }}
                                         </div>
                                 </div>
                                 <div class="col-md-4">
 
                                         <div class="form-group">
-                                                {{ form.company|as_crispy_field }}
+                                                {{ form.priority|as_crispy_field }}
                                         </div>
                                 </div>
                                 <div class="col-md-4">
                                         <div class="form-group">
-                                                {{ form.contact_name|as_crispy_field }}
+                                                {{ form.company|as_crispy_field }}
                                         </div>
                                 </div>
                                 <div class="col-md-4">
@@ -37,71 +37,39 @@
                                                 {{ form.phone_number|as_crispy_field}}
                                         </div>
                                 </div>
-                                <div class="col-md-4">
-
-                                        <div class="form-group">
-                                                {{ form.priority|as_crispy_field}}
-                                        </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                        <div class="form-group">
-                                                {{ form.assigned_to|as_crispy_field}}
-                                        </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                        <div class="form-group">
-                                                {{ form.channel|as_crispy_field}}
-                                        </div>
-                                </div>
-                                <div class="col-md-4">
-                                        <div class="form-group">
-                                                {{ form.service|as_crispy_field}}
-                                        </div>
-                                </div>
                         
+                                <div class="col-md-4">
+                                        <div class="form-group">
+                                                {{ form.faulty_close_date|as_crispy_field}}
+                                        </div>
+                                </div>
+                
                                 <div class="col-md-4">
                                         <div class="form-group">
                                                 {{ form.status|as_crispy_field}}
                                         </div>
                                 </div>
-                                <div class="col-md-4">
-                                        <div class="form-group">
-                                                {{ form.next_follow_up|as_crispy_field}}
-                                        </div>
-                                </div>
-                        
 
                                 <div class="col-md-4">
                                         <div class="form-group">
-                                                {{ form.website|as_crispy_field}}
-                                        </div>
-
-                                </div>
-                                <div class="col-md-4">
-                                        <div class="form-group">
-                                                {{ form.service_mode|as_crispy_field}}
-                                        </div>
-                                </div>
-                                <div class="col-md-4">
-                                        <div class="form-group">
-                                                {{ form.address|as_crispy_field}}
-                                        </div>
-                                </div>
-                                <div class="col-md-4">
-                                        <div class="form-group">
-                                                {{ form.attended_to|as_crispy_field}}
+                                                {{ form.service|as_crispy_field}}
                                         </div>
                                 </div>
                                 <div class="col-md-12">
 
                                         <div class="form-group">
-                                                {{ form.decription|as_crispy_field}}
+                                                {{ form.assigned_to|as_crispy_field}}
                                         </div>
                                 </div>
                                 <div class="col-md-12">
-                                        <button type="submit" class="btn btn-primary">Create Enquiry</button>
+                                        <div class="form-group">
+                                                {{ form.faulty_decription|as_crispy_field}}
+                                        </div>
+                                </div>
+                       
+
+                                <div class="col-md-12">
+                                        <button type="submit" class="btn btn-primary">Edit Fault</button>
                                 </div>
                         </div>
 

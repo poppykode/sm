@@ -1,0 +1,67 @@
+{% extends 'shared/shared.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% block title %}SolarShark :: Create Project-Installation-Asse{% endblock %}
+{% block content %}
+<h2 class="title1">Create</h2>
+<div class="form-grids row widget-shadow" data-example-id="basic-forms">
+        <div class="form-body">
+                <form action="{% url 'projects:pai_create' %}" method="POST">
+                        {% csrf_token %}
+
+                        <div class="row">
+                                <div class="col-md-4">
+                                        <div class="form-group">
+                                                {{ form.type|as_crispy_field }}
+                                        </div>
+                                </div>
+                                <div class="col-md-4">
+                                        <div class="form-group">
+                                                {{ form.title|as_crispy_field }}
+                                        </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                            {{ form.client|as_crispy_field }}
+                                    </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                        {{ form.start_date|as_crispy_field }}
+                                </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                    {{ form.end_date|as_crispy_field }}
+                            </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                                {{ form.resources|as_crispy_field }}
+                        </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                            {{ form.status|as_crispy_field }}
+                    </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                        {{ form.value|as_crispy_field }}
+                </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                    {{ form.description|as_crispy_field }}
+            </div>
+    </div>
+                                <div class="col-md-12">
+                                        <button type="submit" class="btn btn-primary">Create</button>
+                                </div>
+                        </div>
+
+                </form>
+        </div>
+</div>
+
+{% endblock %}

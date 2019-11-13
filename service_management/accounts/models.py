@@ -8,9 +8,11 @@ class User (AbstractUser):
         ('admin','Admin'),
         ('sales','Sales'),
         ('tech','Technician'),
+        ('sub-contractor','Sub-Contractor'),
         ('cs','Customer Services'),)
     is_sales = models.BooleanField(default=False)
     is_technician = models.BooleanField(default=False)
+    is_sub_contractor = models.BooleanField(default=False)
     is_customer_services = models.BooleanField(default=False)
     designation = models.CharField(max_length=30,choices=DES,default='admin')
     

@@ -15,7 +15,30 @@ class ProjectInstallationAssessementForm(forms.ModelForm):
             'end_date': forms.DateInput(attrs={'class': 'datepicker', 'type': 'date', 'data-date-format': 'YYYY-MM-DD'}),
             'description': forms.Textarea(attrs={'rows': 4, },),
         }
-        fields = ("title", "client", "start_date", "end_date", "resources",
+        fields = ("type","title", "client", "start_date", "end_date", "resources",
+                  "description", "status", "value", )
+
+
+class ProjectInstallationAssessementForm1(forms.ModelForm):
+    class Meta:
+        model = ProjectInstallationAssessement
+        labels = {
+            "resources": "Team Member(s)",
+            "end_date": "Closing Date",
+            "resources":"",
+        }
+        widgets = {
+            'type': forms.TextInput(attrs={'onchange':'submit();','type':'hidden'},),
+            'title': forms.TextInput(attrs={'onchange':'submit();','type':'hidden'},),
+            'status':forms.Select(attrs={'onchange':'submit();'},),
+            'client': forms.TextInput(attrs={'onchange':'submit();','type':'hidden'},),
+            'value': forms.TextInput(attrs={'onchange':'submit();','type':'hidden'},),
+            'resources': forms.SelectMultiple(attrs={'onchange':'submit();','type':'hidden','id':'div_id_resources2'},),
+            'start_date': forms.DateInput(attrs={'class': 'datepicker', 'type': 'hidden', 'data-date-format': 'YYYY-MM-DD'}),
+            'end_date': forms.DateInput(attrs={'class': 'datepicker', 'type': 'hidden', 'data-date-format': 'YYYY-MM-DD'}),
+            'description': forms.TextInput(attrs={'onchange':'submit();','type':'hidden'},),
+        }
+        fields = ("type","title", "client", "start_date", "end_date", "resources",
                   "description", "status", "value", )
 
 
@@ -30,6 +53,7 @@ class CommentForm(forms.ModelForm):
             'user': forms.TextInput(attrs={'type': 'hidden', },),
         }
         fields = ('project_installation_assessement', 'decription', 'user')
+
 
 class TaskForm(forms.ModelForm):
     class Meta:
