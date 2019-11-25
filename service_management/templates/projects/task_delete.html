@@ -1,6 +1,6 @@
 {% extends 'shared/shared.html' %}
 {% load staticfiles %}
-{% block title %}SolarShark :: Delete Comment{% endblock %}
+{% block title %}SolarShark :: Delete Task{% endblock %}
 {% block content %}
 <div class="form-grids row widget-shadow" data-example-id="basic-forms"> 
         <div class="form-body">
@@ -9,13 +9,15 @@
       <div class="col-md-6">
             <form method="POST">
                 {% csrf_token %}
+                <input type="hidden" class="form-control" id="pai_id" value="{{obj.id}}"  name="pai_id">
+                <input type="hidden" class="form-control" id="usr_id" value="{{usr.id}}"  name="usr_id">
                 <h3><b>Are you sure you want to Delete</b></h3>
                 <hr>
                 <h3>{{obj.decription}}</h3>
                 <hr>
                 <div>
-                    <input type="submit" value="Delete Enquiry" class="btn btn-danger"/>
-                    <a href="{% url 'projects:details_pai' obj.project_installation_assessement.id %}">Cancel</a>
+                    <input type="submit" value="Delete Task" class="btn btn-danger"/>
+                    <a href="{% url 'projects:task_details' obj.id %}">Cancel</a>
                 </div>
             </form>
       </div>

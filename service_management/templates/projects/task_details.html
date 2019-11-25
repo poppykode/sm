@@ -30,7 +30,7 @@
                 <div class="col-md-12">
                     {% if request.user.is_superuser or request.user.is_customer_services %}
                     <div class="pull-left" style="padding-top: 17px;">
-                        <a href="{% url 'projects:task_create' user.id pai.id %}" type="button"
+                        <a href="{% url 'projects:task_create' user_.id pai.id %}" type="button"
                             class="btn btn-success btn-flat btn-pri btn-lg" style="margin-bottom:10px;"><i
                                 class="fa fa-plus" aria-hidden="true"></i>Add Tasks</a>
                     </div>
@@ -83,11 +83,11 @@
                                     <td>Yes</td>
                                     {% endifequal %}
                                     {% if request.user.is_superuser or request.user.is_customer_services %}
-                                    <td><a href="#"><i class="fa fa-pencil"></i></a></td>
-                                    <td><a href="#"><i class="fa fa-trash-o" style="color: red;;"></i></a></td>
+                                    <td><a href=""><i class="fa fa-pencil"></i></a></td>
+                                    <td><a href=""><i class="fa fa-trash-o" style="color: red;;"></i></a></td>
                                     {% endif %}
                                     {% if request.user.is_technician or request.user.is_sub_contractor %}
-                                    <td><a href="{% url 'dashboard:toggle_task_status' tsks.id %}">toggle status</a></td>
+                                    <td><a href="{% url 'dashboard:toggle_task_status' tsks.id %}">Update Status</a></td>
                                     {% endif %}
                                 </tr>
                                 {% endfor %}

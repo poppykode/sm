@@ -11,12 +11,18 @@ class ProjectInstallationAssessementForm(forms.ModelForm):
             "end_date": "Closing Date",
         }
         widgets = {
-            'start_date': forms.DateInput(attrs={'class': 'datepicker', 'type': 'date', 'data-date-format': 'YYYY-MM-DD'}),
-            'end_date': forms.DateInput(attrs={'class': 'datepicker', 'type': 'date', 'data-date-format': 'YYYY-MM-DD'}),
+            'start_date': forms.DateInput(attrs={'class': 'datepicker', 'type': 'datetime-local'},format='%Y-%m-%dT%H:%M'),
+            'end_date': forms.DateInput(attrs={'class': 'datepicker', 'type': 'datetime-local'},format='%Y-%m-%dT%H:%M'),
             'description': forms.Textarea(attrs={'rows': 4, },),
         }
         fields = ("type","title", "client", "start_date", "end_date", "resources",
                   "description", "status", "value", )
+
+    def __init__(self, *args, **kwargs):
+        super(ProjectInstallationAssessementForm, self).__init__(*args, **kwargs)
+        # input_formats parses HTML5 datetime-local input to datetime field
+        self.fields['start_date'].input_formats = ('%Y-%m-%dT%H:%M',)
+        self.fields['end_date'].input_formats = ('%Y-%m-%dT%H:%M',)
 
 
 class ProjectInstallationAssessementForm1(forms.ModelForm):

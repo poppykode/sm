@@ -1,7 +1,11 @@
 from django.urls import path
 
 from .views import(all_project_installation_assessement,
-                   pai_create, details_pai, task_create, task_save, task_details, pai_comment,delete_comment,update_details_pai,update_pai)
+                   pai_create, details_pai, task_create, 
+                   task_save, task_details, pai_comment,
+                   comment_pai_delete,update_details_pai,update_pai,
+                   CalendarView,delete_pai,task_pai_delete
+                   )
 
 app_name = 'projects'
 urlpatterns = [
@@ -16,6 +20,9 @@ urlpatterns = [
     path('pai/update/<int:pk>', update_pai, name='update_pai'),
     path('task/save', task_save, name='task_save'),
     path('comment/post/<int:pk>', pai_comment, name='pai_comment'),
-    path('comment/delete/<int:pk>', delete_comment, name='delete_comment'),
+    path('comment/delete/<int:pk>', comment_pai_delete, name='comment_pai_delete'),
     path('pai/details/update/<int:pk>', update_details_pai, name='update_details_pai'),
+    path('pai/calender',CalendarView.as_view(), name='calendar'),
+    path('pai/delete/<int:pk>', delete_pai, name='delete_pai'),
+    path('pai/task/delete/<int:pk>', task_pai_delete, name='task_pai_delete'),
 ]

@@ -3,11 +3,24 @@
 {% block title %}SolarShark :: {{obj.enquiry.title}}{% endblock %}
 {% block content %}
 <div class="tables">
+  {% ifequal obj.type 'quotation' %}
     <h2 class="title1">Title of Enquiry: {{obj.enquiry.title|title}}</h2>
+    {% endifequal %}
+    {% ifequal obj.type 'invoice' %}
+    <h2 class="title1">Invoice</h2>
+    {% endifequal %}
+    <a href="{% url 'invoices:invoice_create' obj.id %}" type="button"
+    class="btn btn-warning btn-flat btn-pri btn-lg" style="margin-bottom:10px;"><i class="fa fa-files-o"></i> View PDF</a>
     <div class="panel-body widget-shadow">
-        <p class="pull-left">Company: {{obj.enquiry.company|title}}   </p>
-        <p  class="pull-right">{{obj.address}} </p>
-              <table class="table">
+        <div class="pull-left">
+
+          <p>{{obj.type|title}} # <span class="badge badge-success"> {{obj.invoice_number}}</span></p>
+          <p>Company: {{obj.enquiry.company|title}}</p>
+        </div>
+        <div  class="pull-right"> 
+          <p>{{obj.address}}</p>
+        </div>
+              <table class="table table-hover">
             <thead>
             
                 <tr>
@@ -22,7 +35,7 @@
             <tbody>
                     {% for u in obj.lineitem_set.all %}
                 <tr>
-                  <th scope="row">1</th>
+                  <th scope="row">{{index}}</th>
                   <td>{{u.title|title}}</td>
                   <td>{{u.description}}</td>
                   <td>{{u.quantity}}</td>
@@ -30,6 +43,14 @@
                   <td>{{u.line_item_total}}</td>
                 </tr>
                 {% endfor %}
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td><strong>{{obj.total}}</strong></td>
+                </tr>
             </tbody>
         </table>
     </div>

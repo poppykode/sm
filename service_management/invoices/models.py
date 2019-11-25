@@ -7,7 +7,8 @@ from accounts.models import User
 
 # table for lineitems
 class Invoice(models.Model):
-    enquiry = models.ForeignKey(Enquiry,on_delete=models.CASCADE)
+    type =models.CharField(max_length=255)
+    enquiry = models.ForeignKey(Enquiry,on_delete=models.CASCADE,blank=True,null=True)
     sale_person =  models.ForeignKey(User,on_delete=models.CASCADE)
     invoice_number = models.CharField(max_length = 255)
     banking_details = models.ForeignKey('BankingDetail',on_delete=models.CASCADE,blank=True,null=True)

@@ -1,5 +1,7 @@
 from django.db import models
 from accounts.models import User
+from django.urls import reverse
+
 
 # Create your models here.
 class ProjectInstallationAssessement(models.Model):
@@ -33,6 +35,11 @@ class ProjectInstallationAssessement(models.Model):
 
     class Meta:
         ordering = ["-timestamp",]
+
+    @property
+    def get_html_url(self):
+        url = reverse('projects:update_details_pai', args=(self.id,))
+        return f'<a href="{url}"> {self.title} </a>'
  
 class Comment(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,blank=True, null=True,related_name='comment1_user_set')
@@ -62,3 +69,6 @@ class Task(models.Model):
 
     class Meta:
         ordering = ["-timestamp",]
+  
+    def get_absolute_url(self):
+        return reverse('projects:details_pai',self.id)
