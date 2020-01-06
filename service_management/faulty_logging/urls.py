@@ -2,7 +2,7 @@ from django.urls import path
 
 from .views import (all_faults, log_fault, details_fault,
                     fault_comment, update_details_fault, delete_comment,
-                    delete_fault,user_faults,update_fault)
+                    delete_fault,user_faults,update_fault,faulty_logging_assignment)
 
 app_name = 'faulty_logging'
 urlpatterns = [
@@ -16,4 +16,5 @@ urlpatterns = [
     path('update-details-fault/<int:pk>',
          update_details_fault, name="update_details_fault"),
     path('faults/', user_faults, name="user_faults"),
+    path('assigned/faults', faulty_logging_assignment, name="faulty_logging_assignment"),
 ]

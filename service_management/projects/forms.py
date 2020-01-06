@@ -1,6 +1,7 @@
 from django import forms
 
 from .models import ProjectInstallationAssessement, Comment, Task
+from accounts.models import User
 
 
 class ProjectInstallationAssessementForm(forms.ModelForm):
@@ -23,6 +24,7 @@ class ProjectInstallationAssessementForm(forms.ModelForm):
         # input_formats parses HTML5 datetime-local input to datetime field
         self.fields['start_date'].input_formats = ('%Y-%m-%dT%H:%M',)
         self.fields['end_date'].input_formats = ('%Y-%m-%dT%H:%M',)
+        self.fields['resources'].queryset = User.objects.filter(designation="tech")
 
 
 class ProjectInstallationAssessementForm1(forms.ModelForm):
@@ -46,6 +48,10 @@ class ProjectInstallationAssessementForm1(forms.ModelForm):
         }
         fields = ("type","title", "client", "start_date", "end_date", "resources",
                   "description", "status", "value", )
+
+    def __init__(self, *args, **kwargs):
+        super(ProjectInstallationAssessementForm1, self).__init__(*args, **kwargs)
+        self.fields['resources'].queryset = User.objects.filter(designation="tech")
 
 
 class CommentForm(forms.ModelForm):

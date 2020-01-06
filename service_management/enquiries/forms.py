@@ -3,7 +3,7 @@ from django.contrib.admin import widgets
 from .models import Enquiry,Comment
 from accounts.models import User
 
-
+ 
 class EnquiryForm(forms.ModelForm):
     class Meta:
         model = Enquiry
@@ -19,9 +19,10 @@ class EnquiryForm(forms.ModelForm):
         }
         fields = ('title','company','contact_name','email','phone_number','priority','assigned_to','channel','service','status','next_follow_up','attended_to','decription','website','service_mode','address') 
 
-    # def __init__(self, user, *args, **kwargs):
-    #     super(EnquiryForm, self).__init__(*args, **kwargs)
-    #     self.fields['assigned_to'].queryset = User.designation.filter(user="sales")
+    def __init__(self, *args, **kwargs):
+        super(EnquiryForm, self).__init__(*args, **kwargs)
+        self.fields['assigned_to'].queryset = User.objects.filter(designation="sales")
+        
 
 class EnquiryDetailForm(forms.ModelForm):
     class Meta:
@@ -49,6 +50,10 @@ class EnquiryDetailForm(forms.ModelForm):
             'service_mode': forms.TextInput(attrs={'onchange':'submit();','type':'hidden'},),
         }
         fields = ('title','company','contact_name','email','phone_number','priority','assigned_to','channel','service','status','next_follow_up','attended_to','decription','website','service_mode','address')
+
+def __init__(self, *args, **kwargs):
+    super(EnquiryDetailForm, self).__init__(*args, **kwargs)
+    self.fields['assigned_to'].queryset = User.objects.filter(designation="sales")
 
        
 class CommentForm(forms.ModelForm):

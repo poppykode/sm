@@ -1,0 +1,68 @@
+{% extends 'shared/shared.html' %}
+{% load staticfiles %}
+{% block title %}SolarShark :: Reports{% endblock %}
+{% block content %}
+<div class="row">
+    <h2 class="title1">Reports</h2>
+
+    <div class="col-md-4 widget widget1">
+        <div class="r3_counter_box">
+            <i class="pull-left fa fa-users icon-rounded"></i>
+            <div class="stats">
+                <h5><strong>{{overdue_assemet}}</strong></h5>
+                <span>Resources Allocation</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 widget widget1">
+        <div class="r3_counter_box">
+            <i class="pull-left fa fa-pie-chart dollar1 icon-rounded"></i>
+            <div class="stats">
+                <h5><strong>{{overdue_projects}}</strong></h5>
+                <span>Overdue Projects</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 widget widget1">
+        <div class="r3_counter_box">
+            <i class="pull-left fa fa-users dollar2 icon-rounded"></i>
+            <div class="stats">
+                <h5><strong>{{overdue_installation}}</strong></h5>
+                <span>Overdue Installations</span>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-md-4 widget widget1">
+        <div class="r3_counter_box">
+            <i class="pull-left fa fa-cog user2 icon-rounded"></i>
+            <div class="stats">
+                <h5><strong>{{overdue_assemet}}</strong></h5>
+                <span>Overdue Assessements</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 widget widget1">
+        <div class="r3_counter_box">
+            <i class="pull-left fa fa-comments-o icon-rounded"></i>
+            <div class="stats">
+                <h5><strong>{{overdue_enquiry}}</strong></h5>
+                <span>Overdue Enquiries</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 widget widget1">
+            <div class="r3_counter_box">
+                <i class="pull-left fa fa-cogs dollar2 icon-rounded"></i>
+                <div class="stats">
+                    <h5><strong>{{overdue_enquiry}}</strong></h5>
+                    <span>Overdue Faults</span>
+                </div>
+            </div>
+        </div>
+
+</div>
+
+{% endblock %}

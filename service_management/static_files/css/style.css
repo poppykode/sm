@@ -1477,7 +1477,7 @@ section#tables  p {
     font-weight: 400;
 }
 .form-control {
-    border-radius: inherit;
+    border-radius: 3px;
 }
 .help-block {
     margin-top: 10px;

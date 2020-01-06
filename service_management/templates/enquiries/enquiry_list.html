@@ -138,7 +138,14 @@
 {% block scripty %}
 <script>
   $(document).ready(function () {
-    $('#myTable').DataTable();
+    $('#myTable').DataTable(
+    //   {
+    //     dom: 'Bfrtip',
+    //     buttons: [
+    //       'excel', 'pdf', 'print'
+    //     ]
+    // }
+    );
   });
 </script>
 {% endblock %}

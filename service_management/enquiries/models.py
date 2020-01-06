@@ -1,5 +1,6 @@
-from django.db import models
 import datetime
+from django.db import models
+from multiselectfield import MultiSelectField
 
 from accounts.models import User
 
@@ -93,7 +94,7 @@ class Comment(models.Model):
         return str(self.timestamp)
 
     class Meta:
-        ordering = ["-timestamp",]
+        ordering = ["timestamp",]
 
 # class ChangesTracker(models.Model):
 #i should be able to track what field was update, enquiry was deleted what user was assignes and by who nd wen

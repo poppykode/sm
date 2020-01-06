@@ -33,8 +33,9 @@
                         <!-- priority can be change -->
                     </div>
                     {% endif %}
+                  
                     <div class="pull-right">
-
+                        {% if request.user.is_technician or request.user.is_sub_contractor %}
                         <form id="form1" class="form-inline" method="POST"
                             action="{% url 'faulty_logging:update_details_fault' obj.id %}">
                             {% csrf_token %}
@@ -94,7 +95,7 @@
                             </div>
 
                         </form>
-
+                        {% endif %}
                         
                     </div>
            

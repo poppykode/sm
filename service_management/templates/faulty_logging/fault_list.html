@@ -87,7 +87,7 @@
             <th style='white-space:nowrap;'></th>
             <th style='white-space:nowrap;'></th>
             <th style='white-space:nowrap;'></th>
-            <th style='white-space:nowrap;'></th>
+        
 
 
           </tr>
@@ -137,7 +137,14 @@
 {% block scripty %}
 <script>
   $(document).ready(function () {
-    $('#myTable').DataTable();
+    $('#myTable').DataTable(
+    //   {
+    //     dom: 'Bfrtip',
+    //     buttons: [
+    //         'excel', 'pdf', 'print'
+    //     ]
+    // }
+    );
   });
 </script>
 {% endblock %}

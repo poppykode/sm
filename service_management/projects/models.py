@@ -10,11 +10,11 @@ class ProjectInstallationAssessement(models.Model):
         ('pending','Pending'),
         ('in-progress','In progress'),
         ('on-hold','On hold'),
-        ('completed','competed'),
+        ('completed','completed'),
         ('abandoned','Abandoned'),
         )
     TYPE =(
-        ('assement','Assement'),
+        ('assement','Assessement'),
         ('project','Project'),
         ('installation','Installation'),
         )
@@ -38,8 +38,8 @@ class ProjectInstallationAssessement(models.Model):
 
     @property
     def get_html_url(self):
-        url = reverse('projects:update_details_pai', args=(self.id,))
-        return f'<a href="{url}"> {self.title} </a>'
+        url = reverse('projects:details_pai', args=(self.id,))
+        return f'<a href="{url}"> {self.title.capitalize()} </a>'
  
 class Comment(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,blank=True, null=True,related_name='comment1_user_set')
@@ -52,7 +52,7 @@ class Comment(models.Model):
         return str(self.timestamp)
 
     class Meta:
-        ordering = ["-timestamp",]
+        ordering = ["timestamp",]
 
 class Task(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,blank=True, null=True)

@@ -1,6 +1,7 @@
 from django import forms
 from .models import FaultyLogging
 from .models import Comment
+from accounts.models import User
 
 
 class FaultyLogForm(forms.ModelForm):
@@ -16,6 +17,10 @@ class FaultyLogForm(forms.ModelForm):
         }
         fields = ("title", "priority", "company", "email", "phone_number",
                   "assigned_to", "status", "service", "faulty_decription", "faulty_close_date")
+
+    def __init__(self, *args, **kwargs):
+        super(FaultyLogForm, self).__init__(*args, **kwargs)
+        self.fields['assigned_to'].queryset = User.objects.filter(designation="tech")
 
 class FaultyLogForm2(forms.ModelForm):
     class Meta:
@@ -39,6 +44,10 @@ class FaultyLogForm2(forms.ModelForm):
         }
         fields = ("title", "priority", "company", "email", "phone_number",
                   "assigned_to", "status", "service", "faulty_decription", "faulty_close_date")
+        
+    def __init__(self, *args, **kwargs):
+        super(FaultyLogForm2, self).__init__(*args, **kwargs)
+        self.fields['assigned_to'].queryset = User.objects.filter(designation="tech")
 
 
 class CommentForm(forms.ModelForm):

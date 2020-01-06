@@ -12,7 +12,7 @@
 </div>
 {% endfor %}
 {% endif %}
-<h2 class="title1">Task/s <span class="badge badge-light">{{pai_count}}</span></h2>
+<h2 class="title1">Fault/s <span class="badge badge-light">{{faulty_count}}</span></h2>
 {% if obj %}
 <div class="elements">
     <div class="row">
@@ -24,12 +24,12 @@
               <div class="">
                   <header class="widget-header">
                     {% now "Y-m-d" as todays_date %}
-                    {% if todays_date > u.end_date|date:"Y-m-d" %}
+                    {% if todays_date > u.faulty_close_date|date:"Y-m-d" %}
                       <h4 class="widget-title"><span class="badge badge-danger">{{u.title|upper}}</span></h4>
                       {% else %}
                       <h4 class="widget-title"><span class="badge badge-success">{{u.title|upper}}</span></h4>
                       {% endif %}
-                      <small>Type: <strong>{{u.type|title}}</strong></small>
+
                   </header>
                   <hr class="widget-separator">
                   <div class="widget-body">
@@ -37,18 +37,18 @@
                           <div class="sl-item sl-primary">
                               <div class="sl-content">
                                   
-                                  <p><i class="fa fa-hourglass-start" style="color: green;"></i> <strong>Start Date:</strong> {{u.start_date|date:"M d, Y"}}  | <i class="fa fa-hourglass-end" style="color: red;"></i><strong> End Date:</strong> {{u.end_date|date:"M d, Y"}} </small></p>
+                                  <p> <i class="fa fa-hourglass-end" style="color: red;"></i><strong> Expected Close Date:</strong> {{u.faulty_close_date|date:"M d, Y"}} </small></p>
                               </div>
                           </div>
                           <div class="sl-item sl-danger">
                               <div class="sl-content">
                                
-                                  <p>{{u.description|truncatechars:30}}</p>
+                                  <p>{{u.faulty_decription|truncatechars:30}}</p>
                               </div>
                           </div>
                           <div class="sl-item sl-success">
                               <div class="sl-content">
-                                  <p><small><strong>Client:</strong> {{u.client|title}}</small>
+                                  <p><small><strong>Client:</strong> {{u.company|title}}</small>
                                     <small><strong>Status: </strong> {{u.status}}</small>
                                   </p>
                               </div>
@@ -56,11 +56,11 @@
                           <div class="sl-item sl-warning">
                               <div class="sl-content">
                                 
-                                  {% if todays_date > u.end_date|date:"Y-m-d" %}
+                                  {% if todays_date > u.faulty_close_date|date:"Y-m-d" %}
 
-                                   <a href="{% url 'projects:details_pai' u.id %}" style="color:red;">Work On Project</a>
+                                   <a href="{% url 'faulty_logging:fault_details' u.id %}" style="color:red;">Work On Fault</a>
                                   {% else %}
-                                  <a href="{% url 'projects:details_pai' u.id %}" style="color:green;">Work On Project</a>
+                                  <a href="{% url 'faulty_logging:fault_details' u.id %}" style="color:green;">Work On Fault</a>
                                  {% endif %}
                               </div>
                           </div>

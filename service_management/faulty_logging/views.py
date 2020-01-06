@@ -140,3 +140,17 @@ def update_fault(request,pk):
         context = {'form': FaultyLogForm(instance=qs)}
     return render(request, template_name, context)
 
+@login_required
+def faulty_logging_assignment(request):
+    template_name = 'faulty_logging/faulty_logging_technician.html'
+    date = datetime.date.today()
+    qs= FaultyLogging.objects.filter(assigned_to=request.user.id).order_by('faulty_close_date')
+    print('apo')
+    print(qs)
+    faulty_count = qs.count()
+    context ={
+        'obj':qs,
+        'faulty_count':faulty_count,
+        'date':date
+    }
+    return render(request,template_name,context)

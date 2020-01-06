@@ -56,6 +56,7 @@ def technician_dashboard(request):
         'date':date
     }
     return render(request,template_name,context)
+    
 
 @login_required
 def customer_services_dashboard(request):
