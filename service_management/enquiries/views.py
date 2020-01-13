@@ -15,7 +15,7 @@ def all_enquiries(request):
     qs = Enquiry.objects.all()
     assigned = qs.exclude(assigned_to__isnull =True)
     un_assigned = qs.exclude(assigned_to__isnull =False)
-    due = qs.filter(next_follow_up__lte = datetime.date.today()).exclude(attended_to='attended')
+    due = qs.filter(next_follow_up__lte = datetime.date.today()).exclude(attended_to='attended',state =True)
     un_attended = qs.exclude(attended_to='un-attended')
     all_ = qs.count()
     assigned_ = assigned.count()

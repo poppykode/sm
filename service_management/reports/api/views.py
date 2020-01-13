@@ -20,19 +20,17 @@ from projects.models import ProjectInstallationAssessement
 def sales_funel(request):
     if request.method== 'GET':
         qs = Enquiry.objects.all()
-        labels = ['New', 'Open', 'Won','Lost','Assements']
+        labels = ['New', 'Open', 'Won','Lost']
         new = qs.filter(status='new')
         open = qs.filter(status='open')
         won = qs.filter(status='won')
         lost = qs.filter(status='lost')
-        assement = qs.filter(status='assement')
         new_ = new.count()
         open_ = open.count()
         won_ = won.count()
         lost_ =lost.count()
         qs_ = qs.count()
-        assement_ = assement.count()
-        data = [new_,open_,won_,lost_,assement_]
+        data = [new_,open_,won_,lost_]
         sf = {
             'labels':labels,
             'data':data   

@@ -33,6 +33,7 @@ class Enquiry(models.Model):
     address = models.TextField(blank=True,null=True)
     website = models.URLField(max_length=255,blank=True,null=True)
     service_mode = models.ForeignKey('Channel',on_delete=models.CASCADE, related_name='service_mode',blank=True, null=True)
+    state = models.BooleanField(default = False)
 
     def  __str__(self): 
         return self.title
