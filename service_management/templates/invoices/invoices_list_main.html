@@ -23,12 +23,14 @@
                       <thead>
                       
                           <tr>
-                                <th style='white-space:nowrap;'>{{type_|title}} Number</th>                     
+                                <th style='white-space:nowrap;'>{{type_|title}} Number</th> 
+                                <th style='white-space:nowrap;'>Title</th>                      
                               {% ifequal type_ 'Quotations' %}
-                              <th style='white-space:nowrap;'>Title</th>  
+                              
                               <th style='white-space:nowrap;'>Enquiry Date</th>
                               {% endifequal %}
                               <th style='white-space:nowrap;'>Client</th> 
+                              <th style='white-space:nowrap;'>Download</th> 
                               <th style='white-space:nowrap;'></th>    
                           </tr>
                       </thead>
@@ -45,6 +47,14 @@
                                                     <td>
                                                             <span class="badge badge-success">{{u.invoice_number}}</span>
                                                     </td>
+                                               
+                                                    {% ifequal type_ 'Invoices' %}
+                                                    <td>
+                                                        <i class="fa fa-folder-open-o" style="color: brown;"></i> <span>{{u.title|title}}</span> 
+                                                       
+                                                    </td>
+                                                    {% endifequal %}
+
                                                     {% ifequal type_ 'Quotations' %}
                                                 <td>
                                                     <i class="fa fa-folder-open-o" style="color: brown;"></i> <span>{{u.enquiry.title|title}}</span> 
@@ -60,7 +70,9 @@
                                                          <i class="fa fa-building-o" style="color: pink;"></i> <span>{{u.company_name|title}}</span>  
                                                        
                                                 </td>
-                                             
+                                                <td>
+                                                    <a href="{% url 'invoices:generate_pdf' u.id %}"><i class="fa fa-file-pdf-o"></i></a>
+                                                </td>
                                                 <td>
                                                     <a href="{% url 'invoices:invoices_details' u.id %}"><i class="fa fa-binoculars"></i></a>
                                                 </td>

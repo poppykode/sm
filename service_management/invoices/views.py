@@ -83,21 +83,27 @@ def quotation_create(request):
     return render(request, template_name, context)
 
 
-def generate_pdf(enquiry, first_name, last_name, total, type, address, company_name, line_items):
-    data = {
-        'today': datetime.date.today(),
-        'enquiry': enquiry,
-        'sale_person': sales_person_.first_name + ' ' + sales_person_.last_name,
-        'invoice_number': invoice_number_,
-        'company_name': company_name,
-        'address': address,
-        'line_items': line_items,
-        'type': type,
-        'total': total
-
-    }
-    pdf = render_to_pdf('invoices/quotation_template.html', data)
-    return HttpResponse(pdf, content_type='application/pdf')
+def generate_pdf(request,pk):
+    qs = get_object_or_404(Invoice,pk=pk)
+    if qs:
+        line_items = LineItem.objects.filter(invoice=pk)
+        total = 0.0
+        for t in line_items:
+            total += float(t.line_item_total)
+        data = {
+            'today': datetime.date.today(),
+            'enquiry': qs.title,
+            'sale_person': qs.sale_person.first_name + ' ' + qs.sale_person.last_name,
+            'invoice_number': qs.invoice_number,
+            'company_name': qs.company_name,
+            'address': qs.address,
+            'line_items': line_items,
+            'type': qs.type,
+            'total': total
+        }
+        pdf = render_to_pdf(
+            'invoices/quotation_template.html', data)
+        return HttpResponse(pdf, content_type='application/pdf')
 
 
 @login_required
@@ -112,6 +118,7 @@ def quotation_save(request):
         description = request.POST.getlist('description')
         unit_price = request.POST.getlist('unit_price')
         quantity = request.POST.getlist('quantity')
+        Invoice_for_title = request.POST.get('Invoice_for_title')
         sales_person_ = get_object_or_404(User, username=assigned_to)
         invoice_number = invoiceNumber()
         if title:
@@ -122,6 +129,7 @@ def quotation_save(request):
                 company_name=company_name,
                 address=address,
                 type=type_,
+                title=Invoice_for_title,
             )
             if ic:
                 c = min([len(title), len(description),
@@ -140,27 +148,29 @@ def quotation_save(request):
                         line_item_total=float(
                             unit_price[i]) * float(quantity[i])
                     )
-                    lc_id = lc.id
-                if lc_id > 0:
-                    line_items = LineItem.objects.filter(invoice=id)
-                    total = 0.0
-                    for t in line_items:
-                        total += float(t.line_item_total)
-                    print(ic.invoice_number)
-                    data = {
-                        'today': datetime.date.today(),
-                        'enquiry': 'n/a',
-                        'sale_person': sales_person_.first_name + ' ' + sales_person_.last_name,
-                        'invoice_number': invoice_number,
-                        'company_name': company_name,
-                        'address': address,
-                        'line_items': line_items,
-                        'type': type_,
-                        'total': total
-                    }
-                    pdf = render_to_pdf(
-                        'invoices/quotation_template.html', data)
-                    return HttpResponse(pdf, content_type='application/pdf')
+                    messages.success(request,'Invoice successfully created')
+                    return redirect('invoices:quotations_overview')
+                    # lc_id = lc.id
+                # if lc_id > 0:
+                #     line_items = LineItem.objects.filter(invoice=id)
+                #     total = 0.0
+                #     for t in line_items:
+                #         total += float(t.line_item_total)
+                #     print(ic.invoice_number)
+                #     data = {
+                #         'today': datetime.date.today(),
+                #         'enquiry': 'n/a',
+                #         'sale_person': sales_person_.first_name + ' ' + sales_person_.last_name,
+                #         'invoice_number': invoice_number,
+                #         'company_name': company_name,
+                #         'address': address,
+                #         'line_items': line_items,
+                #         'type': type_,
+                #         'total': total
+                #     }
+                #     pdf = render_to_pdf(
+                #         'invoices/quotation_template.html', data)
+                #     return HttpResponse(pdf, content_type='application/pdf')
                 messages.error(
                     request, 'Line items not created please try again later or contact support.')
                 return redirect('invoices:quotation_create')

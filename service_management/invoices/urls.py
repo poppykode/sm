@@ -9,7 +9,8 @@ from .views import(
     invoices_details,
     quotation_create,
     quotation_save,
-    quotations_overview
+    quotations_overview,
+    generate_pdf
     ) 
 
 app_name='invoices'
@@ -20,6 +21,7 @@ urlpatterns = [
     path('quotation/create/<int:pk>',invoice_create,name='invoice_create'),
     path('invoice/create',quotation_create,name='quotation_create'),
     path('invoice/view/<int:pk>',invoices_details,name='invoices_details'),
+    path('invoice/generate/pdf/<int:pk>',generate_pdf,name='generate_pdf'),
     path('invoice/delete/<int:pk>',invoices_delete,name='invoices_delete'),
     path('quotation/generate-pdf',invoice_save,name='invoice_save'),
     path('invoice/generate-pdf',quotation_save,name='quotation_save'),
